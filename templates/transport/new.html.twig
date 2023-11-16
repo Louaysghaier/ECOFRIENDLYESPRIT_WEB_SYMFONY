@@ -1,0 +1,13 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}New Transport{% endblock %}
+
+{% block body %}
+    <div style="margin-left: 300px;"><!-- or another pixel value -->
+        <h1>Create new Transport</h1>
+
+        {{ include('transport/_form.html.twig') }}
+
+        <a href="{{ path('app_transport_index') }}">back to list</a>
+    </div>
+{% endblock %}

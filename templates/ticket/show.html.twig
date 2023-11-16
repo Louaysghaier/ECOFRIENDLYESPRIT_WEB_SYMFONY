@@ -1,0 +1,44 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Ticket{% endblock %}
+
+{% block body %}
+    <div style="margin-left: 300px;"> <!-- or another pixel value -->
+        <h1>Ticket</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ ticket.id }}</td>
+                </tr>
+                <tr>
+                    <th>Prix</th>
+                    <td>{{ ticket.prix }}</td>
+                </tr>
+                <tr>
+                    <th>LieuDepart</th>
+                    <td>{{ ticket.lieuDepart }}</td>
+                </tr>
+                <tr>
+                    <th>LieuArrive</th>
+                    <td>{{ ticket.lieuArrive }}</td>
+                </tr>
+                <tr>
+                    <th>DateTicket</th>
+                    <td>{{ ticket.dateTicket ? ticket.dateTicket|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>StatutTicket</th>
+                    <td>{{ ticket.statutTicket }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_ticket_index') }}">back to list</a>
+
+        <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">edit</a>
+
+        {{ include('ticket/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

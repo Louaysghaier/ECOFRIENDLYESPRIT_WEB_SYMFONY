@@ -1,0 +1,41 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Transport index{% endblock %}
+
+{% block body %}
+   <div style="margin-left: 300px;"> <!-- or another pixel value -->
+        <h1>Transport index</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>NbrePlaces</th>
+                    <th>TypeTransport</th>
+                    <th>Disponibilite</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for transport in transports %}
+                <tr>
+                    <td>{{ transport.id }}</td>
+                    <td>{{ transport.nbrePlaces }}</td>
+                    <td>{{ transport.typeTransport }}</td>
+                    <td>{{ transport.disponibilite }}</td>
+                    <td>
+                        <a href="{{ path('app_transport_show', {'id': transport.id}) }}">show</a>
+                        <a href="{{ path('app_transport_edit', {'id': transport.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_transport_new') }}">Create new</a>
+    </div>
+{% endblock %}

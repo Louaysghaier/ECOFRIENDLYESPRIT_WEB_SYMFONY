@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservation de Ticket{% endblock %}
+
+{% block body %}
+    <div style="margin-top: 100px;">
+        <h1>Réservation de Ticket</h1>
+
+        {{ form_start(form) }}
+        {{ form_row(form.lieuDepart) }}
+        {{ form_row(form.lieuArrive) }}
+        {{ form_row(form.dateTicket) }}
+        {# Ajoutez d'autres champs de formulaire si nécessaire... #}
+        
+        <button type="submit">Rechercher des Tickets</button>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

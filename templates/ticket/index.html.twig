@@ -1,0 +1,45 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Ticket index{% endblock %}
+
+{% block body %}
+   <div style="margin-left: 300px;"> <!-- ou une autre valeur en pixels -->
+        <h1>Ticket index</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Prix</th>
+                    <th>LieuDepart</th>
+                    <th>LieuArrive</th>
+                    <th>DateTicket</th>
+                    <th>StatutTicket</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.id }}</td>
+                    <td>{{ ticket.prix }}</td>
+                    <td>{{ ticket.lieuDepart }}</td>
+                    <td>{{ ticket.lieuArrive }}</td>
+                    <td>{{ ticket.dateTicket ? ticket.dateTicket|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ ticket.statutTicket }}</td>
+                    <td>
+                        <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">show</a>
+                        <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_ticket_new') }}">Create new</a>
+    </div>
+{% endblock %}

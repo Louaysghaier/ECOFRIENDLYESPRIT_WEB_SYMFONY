@@ -1,0 +1,36 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Transport{% endblock %}
+
+{% block body %}
+    <div style="margin-left: 300px;"> <!-- or another pixel value -->
+        <h1>Transport</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ transport.id }}</td>
+                </tr>
+                <tr>
+                    <th>NbrePlaces</th>
+                    <td>{{ transport.nbrePlaces }}</td>
+                </tr>
+                <tr>
+                    <th>TypeTransport</th>
+                    <td>{{ transport.typeTransport }}</td>
+                </tr>
+                <tr>
+                    <th>Disponibilite</th>
+                    <td>{{ transport.disponibilite }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_transport_index') }}">back to list</a>
+
+        <a href="{{ path('app_transport_edit', {'id': transport.id}) }}">edit</a>
+
+        {{ include('transport/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

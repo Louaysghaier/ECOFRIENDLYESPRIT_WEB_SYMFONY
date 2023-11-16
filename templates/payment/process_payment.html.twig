@@ -1,0 +1,27 @@
+{# templates/payment/process_payment.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Process Payment{% endblock %}
+
+{% block body %}
+    <h1>Process Payment</h1>
+
+    <p>Vous êtes sur le point de payer pour le ticket :</p>
+    <ul>
+        <li>Lieu de départ: {{ ticket.lieuDepart }}</li>
+        <li>Lieu d'arrivée: {{ ticket.lieuArrive }}</li>
+        <li>Date du ticket: {{ ticket.dateTicket|date('Y-m-d H:i:s') }}</li>
+        <li>Prix: {{ ticket.prix }} EUR</li>
+    </ul>
+
+    {# Formulaire de paiement #}
+    {{ form_start(paymentForm) }}
+    {{ form_row(paymentForm.nomCarte) }}
+    {{ form_row(paymentForm.numeroCarte) }}
+    {{ form_row(paymentForm.dateExpiration) }}
+    {# Ajoutez d'autres champs de formulaire si nécessaire... #}
+    {{ form_end(paymentForm) }}
+
+    <button type="submit">Payer</button>
+{% endblock %}

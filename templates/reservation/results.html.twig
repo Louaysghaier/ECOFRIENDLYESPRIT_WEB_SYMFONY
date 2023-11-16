@@ -1,0 +1,26 @@
+{# templates/reservation/results.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultats de la Réservation{% endblock %}
+
+{% block body %}
+    <div style="margin-top: 100px; text-align: center;">
+        <h1>Résultats de la Réservation</h1>
+
+        {% if tickets is not empty %}
+            <ul style="list-style: none; padding: 0;">
+                {% for ticket in tickets %}
+                    <li style="border: 1px solid #ccc; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                        <strong>{{ ticket.lieuDepart }} - {{ ticket.lieuArrive }}</strong><br>
+                        Date du ticket : {{ ticket.dateTicket|date('Y-m-d H:i:s') }}<br>
+                        Prix : {{ ticket.prix }} EUR<br>
+                        <a href="{{ path('payment', {'ticketId': ticket.id}) }}">Payer</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color: red; font-size: 18px;">Aucun ticket disponible pour les critères spécifiés.</p>
+        {% endif %}
+    </div>
+{% endblock %}
