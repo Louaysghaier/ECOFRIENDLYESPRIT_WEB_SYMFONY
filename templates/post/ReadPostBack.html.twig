@@ -1,0 +1,50 @@
+{% extends 'back.html.twig' %}
+{% block title %} List Post {% endblock %}
+{% block body %}
+<!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    {#<div class="col-sm-12 col-xl-6">#}
+                        <div class="col-12">
+                            <div class="bg-secondary rounded h-100 p-4">
+                                <h6 class="mb-4">Responsive Table</h6>
+                                <div class="table-responsive">
+                                    <table class="table" align="center">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Subject</th>
+                                                <th scope="col">Title</th>
+                                                <th scope="col">Description</th>
+                                                <th scope="col">Image</th>
+                                                {#<th scope="col">Number of Comments</th>#}
+                                                <th scope="col">Date of Creation</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for post in p %}
+                                                <tr>
+                                                    {#<td>{{post.prenomUser}}</td>
+                                                    <td>{{post.nomUser}}</td>#}
+                                                    <td>{{post.subject}}</td>
+                                                    <td>{{post.title}}</td>
+                                                    <td>{{post.descriptionPost}}</td>
+                                                    <td>{{post.imagePost}}</td>
+                                                    {#<td>{{post.nbrecomment}}</td>#}
+                                                    <td>{{ post.dateCreationPost|date('Y-m-d') }}</td>
+                                                    <td>
+                                                        <a href="{{ path('updatePost', {'postId': post.getId()}) }}">Edit</a>
+                                                        <a href="{{ path('deletePost', {'postId': post.getId()}) }}">Delete</a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                       
+                    </div>
+                </div>
+            </div>
+            <!-- Table End -->
+{% endblock %}

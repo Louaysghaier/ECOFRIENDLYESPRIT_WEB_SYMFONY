@@ -1,0 +1,33 @@
+
+/* styles.css */
+
+.form-container {
+    width: 50%; /* Ajustez la largeur du conteneur selon vos besoins */
+    margin: 0 auto; /* Centre le conteneur horizontalement */
+    align-items: center;
+    justify-content: center;
+}
+
+.form-group {
+    margin-bottom: 15px; /* Ajoute un espace entre chaque groupe de champ */
+}
+
+.align {
+    margin-top:10px;
+   /* padding-top:30px;*/
+    
+}
+/* Personnalisez davantage le style des champs si nécessaire */
+
+.color {
+   background-color: whitesmoke
+}
+.formu-Postlabel{
+    padding-Right :20px;
+}
+.hh2{
+    padding :30px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
