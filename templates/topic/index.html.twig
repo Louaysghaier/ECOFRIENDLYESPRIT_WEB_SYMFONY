@@ -1,0 +1,84 @@
+{#{% extends 'back.html.twig' %}
+{% block title %} List Post {% endblock %}
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+<section class="upcoming-meetings" id="meetings">
+<div class="example-wrapper">
+    <table border="4">
+    <div style="display: flex, align-items: center; justify-content:center">
+        <thead>
+            <th>topicNameName</th>
+            
+        </thead>
+        <tbody>
+        {% for topic in t %}
+        <tr>
+            <td>{{topic.documentName}}</td>
+            
+            <td>
+           <a href="{{ path('modifdoc', {'iddoc': documents.iddoc}) }}">modifier_document</a>
+
+            </td>
+             <td>
+           <a href="{{ path('supp_doc', {'iddoc': documents.iddoc}) }}">Supprimer_document</a>
+
+            </td>
+         
+           {# <td>
+                <a href="{{}}"
+            </td> #}
+        {#</tr>
+        {% endfor %}
+        </tbody>
+        </div>
+    </table>
+</div>
+</section>
+{% endblock %}#}
+{% extends 'back.html.twig' %}
+{% block title %} List Topic {% endblock %}
+  
+  
+  {% block body %}
+
+<!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="form-container text-center"> 
+                        <div class="col-12">
+                            <div class="bg-secondary rounded h-100 p-4">
+                                <h6 class="mb-4">List Topic</h6>
+                                <div class="table-responsive">
+                                    <table class="table" align="center">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">topic</th>
+                                                
+                                                {#<th scope="col">Action</th>#}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for topic in t %}
+                                                <tr>
+                                                    {#<td>{{post.prenomUser}}</td>
+                                                    <td>{{post.nomUser}}</td>#}
+                                                    <td>{{topic.topicName}}</td>
+                                                   
+                                                    {#<td>
+                                                        <a href="{{ path('updatePost', {'postId': topic.getId()}) }}">Edit</a>
+                                                        <a href="{{ path('Deletepost', {'postId': post.getId()}) }}">Delete</a>
+                                                    </td>#}
+                                                </tr>
+                                                {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}

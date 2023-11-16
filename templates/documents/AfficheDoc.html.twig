@@ -1,0 +1,47 @@
+{% extends 'back.html.twig' %}
+{% block title %} List Document {% endblock %}
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+<section class="upcoming-meetings" id="meetings">
+<div class="example-wrapper">
+    <table border="4">
+    <div style="display: flex, align-items: center; justify-content:center">
+        <thead>
+            <th>Document Name</th>
+            <th>Document Type</th>
+            <th>Document </th>
+            <th>Niveau</th>
+            <th>Semestre</th>
+            
+        </thead>
+        <tbody>
+        {% for documents in d %}
+        <tr>
+            <td>{{documents.documentName}}</td>
+            <td>{{documents.documentType}}</td>
+            <td>{{documents.document}}</td>
+            <td>{{documents.niveau}}</td>
+            <td>{{documents.semestre}}</td>
+            <td>
+           <a href="{{ path('modifdocuments', {'iddoc': documents.iddoc}) }}">Update</a>
+
+            </td>
+             <td>
+           <a href="{{ path('removedoc', {'iddoc': documents.iddoc}) }}">Delete</a>
+
+            </td>
+         
+           {# <td>
+                <a href="{{}}"
+            </td> #}
+        </tr>
+        {% endfor %}
+        </tbody>
+        </div>
+    </table>
+</div>
+</section>
+{% endblock %}
