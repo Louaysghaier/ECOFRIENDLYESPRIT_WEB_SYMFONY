@@ -1,0 +1,32 @@
+
+/* styles.css */
+
+.form-container {
+    width: 50%; /* Ajustez la largeur du conteneur selon vos besoins */
+    margin: 0 auto; /* Centre le conteneur horizontalement */
+    align-items: center;
+    justify-content: center;
+}
+
+.form-group {
+    margin-bottom: 15px; /* Ajoute un espace entre chaque groupe de champ */
+}
+
+.align {
+    margin-top:80px;
+    padding-top:80px;
+    
+}
+/* Personnalisez davantage le style des champs si nécessaire */
+
+.color {
+   background-color: whitesmoke
+}
+.container-fluidevent {
+    min-height: 100vh; /* Définir une hauteur minimale pour le conteneur pour permettre le défilement */
+    overflow-x: auto; /* Activer le défilement horizontal pour la div container-fluid */
+}
+/* Ajouter ces styles dans votre fichier CSS */
+.scroll-horizontal {
+    overflow-x: auto; /* Activer le défilement horizontal */
+}

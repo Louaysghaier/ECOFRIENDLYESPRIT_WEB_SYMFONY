@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to Events!{% endblock %}
+
+{% block body %}
+<section class="heading-page header-text" id="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h6>Welcome to Events</h6>
+                <h2>Upcoming Events</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="meetings-page" id="meetings">
+    <div class="container">
+        <div class="row">
+            {% for event in events %}
+                <div class="col-lg-4 templatemo-item-col all soon">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.getNomevent() }}</h5>
+                            <p class="card-text">Event: {{ event.getNomevent() }}</p>
+                            <p class="card-text">Date: {{ event.getDatedebutevent() }}</p>
+                            <p class="card-text">Prix du billet: {{ event.getPrixTicket() }} dt</p>
+                            <a href="{{ path('addEvent') }}" class="btn btn-primary">Particip</a>
+                            <a href="{{path('showDetails',{'i':event.getIdevent()})}}" class="btn btn-primary">Show Details</a>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

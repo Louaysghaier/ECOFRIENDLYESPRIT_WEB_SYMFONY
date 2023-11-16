@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event Details{% endblock %}
+
+{% block body %}
+<section class="heading-page header-text" id="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Welcome to Event Details</h2>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+
+        <div class="col-md-8 offset-md-2">
+            <h1>Event Details</h1>
+
+            {% if event is not empty %}
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Titre</th>
+                            <th>Lieu</th>
+                            <th>Date de début</th>
+                            <th>Durée</th>
+                            <th>Nombre max de participants</th>
+                            <th>getPrixticket</th>
+                            <th>getTypeevent</th>
+                            <th>Descriptionevent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ event.getNomevent() }}</td>
+                            <td>{{ event.getLieuevent() }}</td>
+                            <td>{{ event.getDatedebutevent() }}</td>
+                            <td>{{ event.getDuree() }} </td>
+                            <td>{{ event.getNbmaxparticipant() }}</td>
+                            <td>{{ event.getPrixticket() }}</td>
+                            <td>{{ event.getTypeevent() }}</td>
+                            <td>{{ event.getDescriptionevent() }}</td>
+                            
+
+                        </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    Aucun événement trouvé.
+                </div>
+            {% endif %}
+        
+</div>
+{% endblock %}
