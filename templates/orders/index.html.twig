@@ -3,7 +3,9 @@
 {% block title %}Orders index{% endblock %}
 
 {% block body %}
-    <h1>Orders index</h1>
+<section class="contact-us" id="contact">
+
+<h1>Orders History </h1>
 
     <table class="table">
         <thead>
@@ -27,7 +29,7 @@
                 <td>{{ order.priceorder }}</td>
                 <td>
                     <a href="{{ path('app_orders_show', {'orderid': order.orderid}) }}">show</a>
-                    <a href="{{ path('app_orders_edit', {'orderid': order.orderid}) }}">edit</a>
+                   <!-- <a href="{{ path('app_orders_edit', {'orderid': order.orderid}) }}">edit</a>-->
                 </td>
             </tr>
         {% else %}
@@ -38,5 +40,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_orders_new') }}">Create new</a>
+    <a href="{{ path('app_orders_new') }}">Go To The SHop & Order more </a>
+</section>
 {% endblock %}

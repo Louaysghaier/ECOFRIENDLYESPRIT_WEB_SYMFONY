@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrdersRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -33,7 +35,7 @@ class Orders
     private $numOrder;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="pickupDateTime", type="datetime", nullable=false)
      */
@@ -119,16 +121,21 @@ class Orders
 
         return $this;
     }
-
-    public function getPickupdatetime(): \DateTime|string
+    /**
+     * @return DateTime
+     */
+    public function getPickupdatetime(): DateTime|string
     {
         return $this->pickupdatetime;
     }
 
 
 
-
-    public function setPickupdatetime(\DateTimeInterface $pickupdatetime): static
+    /**
+     * @param DateTimeInterface $pickupdatetime
+     * @return $this
+     */
+    public function setPickupdatetime(DateTimeInterface $pickupdatetime): static
     {
         $this->pickupdatetime = $pickupdatetime;
 

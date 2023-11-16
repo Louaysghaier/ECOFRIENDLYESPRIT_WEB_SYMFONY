@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Orders;
+use App\Entity\Service;
 use App\Form\Orders1Type;
 use App\Repository\OrdersRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,23 +23,14 @@ class OrdersController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_orders_new', methods: ['GET', 'POST'])]
+    #[Route('/shop', name: 'app_orders_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $order = new Orders();
-        $form = $this->createForm(Orders1Type::class, $order);
-        $form->handleRequest($request);
+        // Fetch services from the database
+        $services = $this->getDoctrine()->getRepository(Service::class)->findAll();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($order);
-            $entityManager->flush();
-            $entityManager->getDoctrine().getmanager();
-            return $this->redirectToRoute('app_orders_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('orders/new.html.twig', [
-            'order' => $order,
-            'form' => $form,
+        return $this->render('orders/ServicesShop.html.twig', [
+            'services' => $services,
         ]);
     }
 

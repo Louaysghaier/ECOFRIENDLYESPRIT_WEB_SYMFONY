@@ -1,18 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends 'back.html.twig' %}
 
 {% block title %}Service index{% endblock %}
 
 {% block body %}
-    <h1>Service index</h1>
+<section class="form-container " id="contact">
+
+<h1>Service index table</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Serviceid</th>
+                <th>Servicenumber</th>
                 <th>Servicename</th>
                 <th>Price</th>
-                <th>Img</th>
-                <th>actions</th>
+                <th>Images</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -23,7 +25,7 @@
                 <td>{{ service.price }}</td>
                 <td>{{ service.img }}</td>
                 <td>
-                    <a href="{{ path('app_service_show', {'serviceid': service.serviceid}) }}">show</a>
+                    <a href="{{ path('app_service_show', {'serviceid': service.serviceid}) }} ">show</a>
                     <a href="{{ path('app_service_edit', {'serviceid': service.serviceid}) }}">edit</a>
                 </td>
             </tr>
@@ -35,5 +37,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_service_new') }}">Create new</a>
+    <a href="{{ path('app_service_new') }} " class="btn bg-danger">Create new</a>
+</section>
 {% endblock %}

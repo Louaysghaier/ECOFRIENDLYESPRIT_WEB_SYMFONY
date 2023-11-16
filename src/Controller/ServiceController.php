@@ -30,6 +30,21 @@ class ServiceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('img')->getData();
+
+            if ($imageFile) {
+                // Generate a unique name for the file
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+
+                // Move the file to the directory where images are stored
+                $imageFile->move(
+                    $this->getParameter('images_directory'),
+                    $newFilename
+                );
+
+                // Store the file name in the database
+                $service->setImg($newFilename);
+            }
             $entityManager->persist($service);
             $entityManager->flush();
 
@@ -57,10 +72,36 @@ class ServiceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $imageFile = $form->get('img')->getData();
+
+            if ($imageFile) {
+                // Generate a unique filename
+                $newFilename = md5(uniqid()) . '.' . $imageFile->guessExtension();
+
+                // Move the file to the images directory
+                $imageFile->move(
+                    $this->getParameter('images_directory'),
+                    $newFilename
+                );
+
+                if ($service->getImg()) {
+                    $oldImagePath = $this->getParameter('images_directory') . '/' . $service->getImg();
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                }
+
+                // Update the entity property with the new filename
+                $service->setImg($newFilename);
+
+                // Persist and flush the entity
+                $entityManager->persist($service);
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);
         }
+
 
         return $this->renderForm('service/edit.html.twig', [
             'service' => $service,

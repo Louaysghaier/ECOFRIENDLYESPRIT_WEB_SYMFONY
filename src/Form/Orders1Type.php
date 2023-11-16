@@ -6,6 +6,7 @@ use App\Entity\Orders;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class Orders1Type extends AbstractType
 {
@@ -13,13 +14,11 @@ class Orders1Type extends AbstractType
     {
         $builder
             ->add('numOrder')
-            ->add('pickupdatetime')
             ->add('status')
             ->add('phonenumber')
             ->add('priceorder')
             ->add('userid')
             ->add('services')
-            ->add('serviceid')
         ;
     }
 

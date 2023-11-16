@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to Service Shop!{% endblock %}
+
+{% block body %}
+    <section class="heading-page header-text" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6>Welcome to our services</h6>
+                    <h2>Check & Exchange</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="meetings-page" id="meetings">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="filters">
+                                <ul>
+                                    <!-- You can add filters if needed -->
+                                </ul>
+                            </div>
+                        </div>
+                        {% for service in services %}
+                            <div class="col-lg-12">
+                                <div class="row grid">
+                                    <div class="col-lg-4 templatemo-item-col all soon">
+                                        <div class="meeting-item">
+                                            <div class="thumb">
+                                                {% if service.getImg() is not null %}
+                                                    <img src="{{ asset('uploads/images/' ~ service.getImg()) }}" alt="{{ service.getServicename() }}" style="width: 200px; height: auto;">
+                                                {% else %}
+                                                    <p>No image available</p>
+                                                {% endif %}
+                                            </div>
+                                            <div class="down-content">
+
+                                                <div class="date">
+                                                    <h6 >NAME OF THE SERVICE : {{ service.getServicename() }}</h6>
+                                                </div>
+                                                <h4>PRICE FOR THIS SERVICE : {{ service.getPrice() }}</h4>
+                                                <button class="btn btn-primary"   href="{{ path('app_orders_index') }}" >Add me !</button>
+                                                <a href="{{ path('app_orders_index') }}" class="btn">Go To Your Basket -  -  ></a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

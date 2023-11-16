@@ -1,11 +1,38 @@
-{% extends 'base.html.twig' %}
+{% extends 'back.html.twig' %}
 
 {% block title %}New Service{% endblock %}
 
 {% block body %}
-    <h1>Create new Service</h1>
+<section class="form-container" id="contact">
+    <link rel="stylesheet" href="{{ asset('css/ServiceForm.css') }}">
 
-    {{ include('service/_form.html.twig') }}
+<h1>Create new Service</h1>
 
-    <a href="{{ path('app_service_index') }}">back to list</a>
+    <div class="form-container">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+        <div class="form-group">
+            {{ form_label(form.servicename) }}
+            {{ form_widget(form.servicename) }}
+            <div class="error-message">{{ form_errors(form.servicename) }}</div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.price) }}
+            {{ form_widget(form.price) }}
+            <div class="error-message">{{ form_errors(form.price) }}</div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.img) }}
+            {{ form_widget(form.img) }}
+            <div class="error-message">{{ form_errors(form.img) }}</div>
+        </div>
+
+        <button class="btn bg-danger">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
+
+        <a href="{{ path('app_service_index') }}" >back to list</a>
+    </div>
+</section>
 {% endblock %}

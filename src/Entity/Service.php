@@ -6,6 +6,7 @@ use App\Repository\ServiceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Service
@@ -26,14 +27,15 @@ class Service
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="serviceName", type="string", length=100, nullable=false)
+     * @Assert\NotBlank(message="Service name cannot be blank.")
+     *   @ORM\Column(name="serviceName", type="string", length=100, nullable=false)
      */
     private $servicename;
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank(message="Price cannot be blank.")
+     * @Assert\Type(type="numeric", message="Price must be a valid number.")
      * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=false)
      */
     private $price;
@@ -42,6 +44,12 @@ class Service
      * @var string
      *
      * @ORM\Column(name="img", type="string", length=200, nullable=false)
+     * @Assert\File(
+     * maxSize="10M",
+     * maxSizeMessage="The file is too large. Maximum allowed size is 5MB.",
+     * mimeTypes={"image/*"},
+     * mimeTypesMessage="Please upload a valid image file."
+     * )
      */
     private $img;
 
