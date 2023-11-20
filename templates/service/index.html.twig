@@ -3,12 +3,12 @@
 {% block title %}Service index{% endblock %}
 
 {% block body %}
-<section class="form-container " id="contact">
+    <section class="form-container" id="contact">
 
-<h1>Service index table</h1>
+        <h1>Service index table</h1>
 
-    <table class="table">
-        <thead>
+        <table class="table">
+            <thead>
             <tr>
                 <th>Servicenumber</th>
                 <th>Servicename</th>
@@ -16,27 +16,33 @@
                 <th>Images</th>
                 <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for service in services %}
-            <tr>
-                <td>{{ service.serviceid }}</td>
-                <td>{{ service.servicename }}</td>
-                <td>{{ service.price }}</td>
-                <td>{{ service.img }}</td>
-                <td>
-                    <a href="{{ path('app_service_show', {'serviceid': service.serviceid}) }} ">show</a>
-                    <a href="{{ path('app_service_edit', {'serviceid': service.serviceid}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for service in services %}
+                <tr>
+                    <td>{{ service.serviceid }}</td>
+                    <td>{{ service.servicename }}</td>
+                    <td>{{ service.price }}</td>
+                    <td>
+                        {% if service.img %}
+                            <img src="{{ asset('uploads/images/' ~ service.img) }}" alt="{{ service.servicename }}" style="max-width: 100px; max-height: 100px;">
+                        {% else %}
+                            <span>No image available</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a class="btn bg-white" href="{{ path('app_service_show', {'serviceid': service.serviceid}) }}">show</a>
+                        <a class="btn bg-white" href="{{ path('app_service_edit', {'serviceid': service.serviceid}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_service_new') }} " class="btn bg-danger">Create new</a>
-</section>
+        <a href="{{ path('app_service_new') }}" class="btn bg-danger">Create new</a>
+    </section>
 {% endblock %}

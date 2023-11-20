@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Service
- *
  * @ORM\Table(name="service")
  * @ORM\Entity(repositoryClass=ServiceRepository::class)
  */
@@ -51,12 +50,19 @@ class Service
      * mimeTypesMessage="Please upload a valid image file."
      * )
      */
-    private $img;
 
+    private $img;
+    /**
+     * @var string
+     * @Assert\NotBlank(message=" cannot be blank.")
+     * @ORM\Column(name="description", type="string", length=30, nullable=true)
+     * */
+
+    private $description;
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Orders", mappedBy="serviceid")
+     * @ORM\ManyToMany(targetEntity="Orders", mappedBy="serviceid", cascade={"persist", "remove"})
      */
     private $orderid = array();
 
@@ -88,6 +94,16 @@ class Service
     public function getPrice(): ?float
     {
         return $this->price;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
     }
 
     public function setPrice(float $price): static
@@ -140,6 +156,4 @@ class Service
     {
         return $this->servicename;
     }
-
-
 }

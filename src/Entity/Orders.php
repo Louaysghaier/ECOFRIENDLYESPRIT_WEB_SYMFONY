@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Orders
  *
- * @ORM\Table(name="orders", indexes={@ORM\Index(name="fk_idserv", columns={"services"}), @ORM\Index(name="fk-iduse", columns={"userId"})})
+ * @ORM\Table(name="orders", indexes={@ORM\Index(name="fk_idserv", columns={"services"}), @ORM\Index(name="fk_iduser", columns={"userId"})})
  * @ORM\Entity(repositoryClass=OrdersRepository::class)
  */
 class Orders
@@ -75,7 +75,7 @@ class Orders
     /**
      * @var \Service
      *
-     * @ORM\ManyToOne(targetEntity="Service")
+     * @ORM\ManyToOne(targetEntity="Service",cascade={"persist", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="services", referencedColumnName="serviceId")
      * })
