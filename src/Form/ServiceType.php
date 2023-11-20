@@ -25,7 +25,7 @@ class ServiceType extends AbstractType
                 new Length([
                     'min' => 3,
                     'minMessage' => 'Your service name should have at least {{ limit }} characters.',
-                    'max' => 10,
+                    'max' => 20,
                     'maxMessage' => 'Your service name should not exceed {{ limit }} characters.',
                 ]),
             ],

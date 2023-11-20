@@ -28,9 +28,9 @@ class Orders
     private $orderid;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="num_order", type="integer", nullable=false)
+     * @ORM\Column(name="num_order", type="string", nullable=false)
      */
     private $numOrder;
 
@@ -100,11 +100,26 @@ class Orders
     /**
      * Constructor
      */
+
     public function __construct()
     {
+        $this->numOrder = $this->generateRandomNumOrder();
         $this->serviceid = new \Doctrine\Common\Collections\ArrayCollection();
+
     }
 
+    /**
+     * Generate a random number with 4 digits and 2 characters.
+     *
+     * @return string
+     */
+    private function generateRandomNumOrder(): string
+    {
+        $numbers = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+        $characters = chr(rand(65, 90)) . chr(rand(65, 90));
+
+        return $numbers . $characters;
+    }
     public function getOrderid(): ?int
     {
         return $this->orderid;

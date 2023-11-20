@@ -110,5 +110,14 @@ class ServiceController extends AbstractController
             'service' => $service,
         ]);
     }
+    #[Route('/shop', name: 'app_orders_new', methods: ['GET', 'POST'])]
+    public function homeshop(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Fetch services from the database
+        $services = $this->getDoctrine()->getRepository(Service::class)->findAll();
 
+        return $this->render('service/ServicesShop.html.twig', [
+            'services' => $services,
+        ]);
+    }
 }
