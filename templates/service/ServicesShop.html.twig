@@ -1,0 +1,244 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Service Shop!{% endblock %}
+
+  
+{% block body %}
+                <!-- css  -->
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/responsive.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/style.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/bootstrap.min.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/custom.css') }}">
+       
+ <!-- ALL JS FILES -->
+<script src="{{ asset('shopjs/js/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/popper.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/bootstrap.min.js') }}"></script>
+<!-- ALL PLUGINS -->
+<script src="{{ asset('shopjs/js/jquery.superslides.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/bootstrap-select.js') }}"></script>
+<script src="{{ asset('shopjs/js/inewsticker.js') }}"></script>
+<script src="{{ asset('shopjs/js/bootsnav.js') }}"></script>
+<script src="{{ asset('shopjs/js/images-loded.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/isotope.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/baguetteBox.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/form-validator.min.js') }}"></script>
+<script src="{{ asset('shopjs/js/contact-form-script.js') }}"></script>
+<script src="{{ asset('shopjs/js/custom.js') }}"></script>
+
+        <!-- code   -->
+
+    <section class="heading-page header-text" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6>Welcome to our services</h6>
+                    <h2>Check & Buy</h2>
+                    <div class="btn bg-danger" style="color: white; text-decoration-color: white;">Ask our chatbot</div>
+                </div>
+            </div>
+        </div>
+    </section>
+<div class="main-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="custom-select-box">
+                        <select id="basic" class="selectpicker show-tick form-control" data-placeholder="$ USD">
+							<option>DT DinarTN</option>
+							<option>$ USD</option>
+							<option>€ EUR</option>
+						</select>
+                    </div>
+                    <div class="right-phone-box">
+                        <p>Call US :- <a href="#"> +216 55125290</a></p>
+                    </div>
+                    <div class="our-link">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-user s_color"></i> My Account</a></li>
+                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
+                            <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="login-box">
+						<select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In">
+							<option>Register Here</option>
+							<option>Sign In</option>
+						</select>
+					</div>
+                    <div class="text-slid-box">
+                        <div id="offer-box" class="carouselTicker">
+                            <ul class="offer-box">
+                                <li>
+                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: offT80
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> 50% - 80% off on 
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Off 10%! Shop 
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Off 10%! Shop 
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> 50% - 80% off on 
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: offT30
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now 
+                                </li>
+                            </ul>
+                            <script>
+                                $('.offer-box').inewsticker({
+                                    speed: 3000,
+                                    effect: 'fade',
+                                    dir: 'ltr',
+                                    font_size: 13,
+                                    color: '#ffffff',
+                                    font_family: 'Montserrat, sans-serif',
+                                    delay_after: 1000
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="upcoming-meetings" id="meetings">
+        <div class="container">
+            <div class="row ">
+                
+
+                <div class="col-lg-10 mx-auto ">
+                    <div class="categories">
+                        <h4>hey Mr Sghaier louay  </h4>
+                        <ul>
+                            <li><a href="#">Your Current money</a></li><br>
+                            <li><a href="#">The Total Amount</a></li><br>
+                            <li><a href="#">The Last Money To pay</a></li><br>
+                            <li><a href="#">Number of your order</a></li><br>
+                            <li><a href="#">Check for Promo-Code</a></li>
+                        </ul>
+                        <div class="main-button-red">
+                            <a href="meetings.html">Finaliser votre achat</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="section-heading">
+                        <div class="col-lg-12">
+                            <div class="filters mb-4">
+                                <b style="color: white; font-size: 18px;" >Filter now with your special choice:</b><br>
+                                <button  class="btn btn-danger " href="{{ path('app_orders_index') }}">Low Price</button>
+                                <button class="btn btn-danger" href="{{ path('app_orders_index') }}">Top Rated</button>
+                                <button class="btn btn-danger" href="{{ path('app_orders_index') }}">Promotion!</button>
+                            </div>
+                        </div>
+                        <div class="search-product col-lg-12">
+                        <form id="search-form">
+                                <input class="form-control" id="search-input"  placeholder="Search here..." type="text">
+                                <button type="submit"> <i class="fa fa-search"></i> </button>
+                        
+                            </form>
+                        </div>
+     
+
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <section class="meetings-page" id="meetings">
+                            <div class="container">
+                                <div class="col-lg-12">
+                                    <div class="row" id="search-results">
+                                        {% for service in services %}
+                                            <div class="col-lg-4">
+                                                <div class="meeting-item" style="width: 100%;">
+                                                    <div class="thumb" style="text-align: center;">
+                                                        {% if service.getImg() is not null %}
+                                                            <img src="{{ asset('uploads/images/' ~ service.getImg()) }}" alt="{{ service.getServicename() }}" style="width: 100%; height: auto;">
+                                                        {% else %}
+                                                            <p>No image available</p>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="down-content">
+                                                        <div class="date">
+                                                            <h6>NAME OF THE SERVICE: {{ service.getServicename() }}</h6>
+                                                        </div>
+                                                        <h4>PRICE FOR THIS SERVICE: {{ service.getPrice() }}</h4>
+                                                        <button class="btn btn-danger" onclick="addToOrder({{ service.getServiceid() }})">Add me!</button>
+                                                         <a class=" btn btn-danger " href="{{ path('app_orders_show_details' , {'serviceid': service.serviceid}) }}">Show More </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                                        <script>
+                                            function addToOrder(serviceId) {
+                                                // Send an AJAX request to your Symfony controller
+                                                $.ajax({
+                                                    url: "{{ path('add_to_order') }}",
+                                                    method: "POST",
+                                                    data: { serviceId: serviceId },
+                                                    
+                                                    success: function(response) {
+                                                        alert("Service added to order!");  // You can handle the response as needed
+                                                    },
+                                                    error: function(error) {
+                                                        console.error("Error adding service to order:", error);
+                                                    }
+                                                });
+                                            }
+                                        </script>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $('#search-form').on('submit', function (e) {
+                                                    e.preventDefault();
+
+                                                    // Get the input value
+                                                    var serviceName = $('#search-input').val();
+
+                                                    // Make an AJAX request
+                                                    $.ajax({
+                                                        url: "{{ path('search') }}",
+                                                        method: "GET",
+                                                        data: { serviceName: serviceName },
+                                                        dataType: 'html',
+                                                        success: function (response) {
+                                                            // Replace the content with the new card
+                                                            $('#search-results').html(response);
+                                                            if (response.message) {
+                                                                // Display a pop-up with the message
+                                                                alert(response.message);
+                                                            }
+                                                        },
+                                                        error: function (error) {
+                                                            console.error("Error searching:", error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--top button -->
+        <a class="bg-danger" href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
+
+{% endblock %}

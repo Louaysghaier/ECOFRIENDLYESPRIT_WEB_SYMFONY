@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Orders index{% endblock %}
+
+{% block body %}
+<section class="contact-us" id="contact">
+
+<h1>Orders History </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>NumOrder</th>
+                <th>Pickupdatetime</th>
+                <th>Status</th>
+                <th>Phonenumber</th>
+                <th>Priceorder</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.numOrder }}</td>
+                <td>{{ order.pickupdatetime ? order.pickupdatetime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.phonenumber }}</td>
+                <td>{{ order.priceorder }}</td>
+                <td>
+                    <a class=" btn bg-white" href="{{ path('app_orders_show', {'orderid': order.orderid}) }}">show</a>
+                        {{ include('orders/_delete_form.html.twig') }}
+
+                   <!-- <a href="{{ path('app_orders_edit', {'orderid': order.orderid}) }}">edit</a> -->
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   <a href="{{ path('app_service_shop') }}">Go To The SHop & Order more </a> 
+</section>
+{% endblock %}

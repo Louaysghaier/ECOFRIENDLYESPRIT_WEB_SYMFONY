@@ -1,0 +1,7 @@
+index:
+   path: /template
+   controller: App\Controller\TemplateController::index
+add_to_order:
+   path: /add-to-order
+   controller: App\Controller\OrdersController::addToOrder
+   methods: ['POST']
