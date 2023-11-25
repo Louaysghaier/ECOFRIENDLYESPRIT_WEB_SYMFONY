@@ -10,24 +10,24 @@
                 <link rel="stylesheet" href="{{ asset('css/shopcss/css/bootstrap.min.css') }}">
                 <link rel="stylesheet" href="{{ asset('css/shopcss/css/custom.css') }}">
        
- <!-- ALL JS FILES -->
-<script src="{{ asset('shopjs/js/jquery-3.2.1.min.js') }}"></script>
-<script src="{{ asset('shopjs/js/popper.min.js') }}"></script>
-<script src="{{ asset('shopjs/js/bootstrap.min.js') }}"></script>
-<!-- ALL PLUGINS -->
-<script src="{{ asset('shopjs/js/jquery.superslides.min.js') }}"></script>
-<script src="{{ asset('shopjs/js/bootstrap-select.js') }}"></script>
-<script src="{{ asset('shopjs/js/inewsticker.js') }}"></script>
-<script src="{{ asset('shopjs/js/bootsnav.js') }}"></script>
-<script src="{{ asset('shopjs/js/images-loded.min.js') }}"></script>
-<script src="{{ asset('shopjs/js/isotope.min.js') }}"></script>
-<script src="{{ asset('shopjs/js/owl.carousel.min.js') }}"></script>
-<script src="{{ asset('shopjs/js/baguetteBox.min.js') }}"></script>
-<script src="{{ asset('shopjs/js/form-validator.min.js') }}"></script>
-<script src="{{ asset('shopjs/js/contact-form-script.js') }}"></script>
-<script src="{{ asset('shopjs/js/custom.js') }}"></script>
+                <!-- ALL JS FILES -->
+                <script src="{{ asset('shopjs/js/jquery-3.2.1.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/popper.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/bootstrap.min.js') }}"></script>
+                <!-- ALL PLUGINS -->
+                <script src="{{ asset('shopjs/js/jquery.superslides.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/bootstrap-select.js') }}"></script>
+                <script src="{{ asset('shopjs/js/inewsticker.js') }}"></script>
+                <script src="{{ asset('shopjs/js/bootsnav.js') }}"></script>
+                <script src="{{ asset('shopjs/js/images-loded.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/isotope.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/owl.carousel.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/baguetteBox.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/form-validator.min.js') }}"></script>
+                <script src="{{ asset('shopjs/js/contact-form-script.js') }}"></script>
+                <script src="{{ asset('shopjs/js/custom.js') }}"></script>
 
-        <!-- code   -->
+                        <!-- code   -->
 
     <section class="heading-page header-text" id="top">
         <div class="container">
@@ -114,130 +114,168 @@
             </div>
         </div>
     </div>
-    <section class="upcoming-meetings" id="meetings">
-        <div class="container">
-            <div class="row ">
                 
-
-                <div class="col-lg-10 mx-auto ">
-                    <div class="categories">
-                        <h4>hey Mr Sghaier louay  </h4>
-                        <ul>
-                            <li><a href="#">Your Current money</a></li><br>
-                            <li><a href="#">The Total Amount</a></li><br>
-                            <li><a href="#">The Last Money To pay</a></li><br>
-                            <li><a href="#">Number of your order</a></li><br>
-                            <li><a href="#">Check for Promo-Code</a></li>
-                        </ul>
-                        <div class="main-button-red">
-                            <a href="meetings.html">Finaliser votre achat</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="section-heading">
-                        <div class="col-lg-12">
-                            <div class="filters mb-4">
-                                <b style="color: white; font-size: 18px;" >Filter now with your special choice:</b><br>
-                                <button  class="btn btn-danger " href="{{ path('app_orders_index') }}">Low Price</button>
-                                <button class="btn btn-danger" href="{{ path('app_orders_index') }}">Top Rated</button>
-                                <button class="btn btn-danger" href="{{ path('app_orders_index') }}">Promotion!</button>
-                            </div>
-                        </div>
-                        <div class="search-product col-lg-12">
-                        <form id="search-form">
-                                <input class="form-control" id="search-input"  placeholder="Search here..." type="text">
-                                <button type="submit"> <i class="fa fa-search"></i> </button>
-                        
-                            </form>
-                        </div>
-     
-
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="row">
-                        <section class="meetings-page" id="meetings">
-                            <div class="container">
-                                <div class="col-lg-12">
-                                    <div class="row" id="search-results">
-                                        {% for service in services %}
-                                            <div class="col-lg-4">
-                                                <div class="meeting-item" style="width: 100%;">
-                                                    <div class="thumb" style="text-align: center;">
-                                                        {% if service.getImg() is not null %}
-                                                            <img src="{{ asset('uploads/images/' ~ service.getImg()) }}" alt="{{ service.getServicename() }}" style="width: 100%; height: auto;">
-                                                        {% else %}
-                                                            <p>No image available</p>
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="down-content">
-                                                        <div class="date">
-                                                            <h6>NAME OF THE SERVICE: {{ service.getServicename() }}</h6>
-                                                        </div>
-                                                        <h4>PRICE FOR THIS SERVICE: {{ service.getPrice() }}</h4>
-                                                        <button class="btn btn-danger" onclick="addToOrder({{ service.getServiceid() }})">Add me!</button>
-                                                         <a class=" btn btn-danger " href="{{ path('app_orders_show_details' , {'serviceid': service.serviceid}) }}">Show More </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-                                        <script>
-                                            function addToOrder(serviceId) {
-                                                // Send an AJAX request to your Symfony controller
-                                                $.ajax({
-                                                    url: "{{ path('add_to_order') }}",
-                                                    method: "POST",
-                                                    data: { serviceId: serviceId },
-                                                    
-                                                    success: function(response) {
-                                                        alert("Service added to order!");  // You can handle the response as needed
-                                                    },
-                                                    error: function(error) {
-                                                        console.error("Error adding service to order:", error);
-                                                    }
-                                                });
+ <!-- Start Shop Page  -->
+<div class="shop-box-inner">
+    <div class="container">
+        <div class="row">
+                 <!-- cards -->
+                <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
+                        <div class="right-product-box">
+                            <div class="product-categorie-box">
+                                <div class="tab-content">
+                                        <style>
+                                            .meeting-item {
+                                                border: 1px solid #ddd; /* Add border */
+                                                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow */
+                                                margin-bottom: 20px; /* Add some space between cards */
+                                                padding: 15px; /* Add padding for better spacing */
                                             }
-                                        </script>
-                                        <script>
-                                            $(document).ready(function () {
-                                                $('#search-form').on('submit', function (e) {
-                                                    e.preventDefault();
+                                            .down-content {
+                                                margin-top: 15px; /* Add space between image and text */
+                                            }
 
-                                                    // Get the input value
-                                                    var serviceName = $('#search-input').val();
+                                            .btn-group {
+                                                display: flex; /* Make buttons side by side */
+                                                justify-content: space-between; /* Add space between buttons */
+                                            }
 
-                                                    // Make an AJAX request
+                                            .btn {
+                                                width: 48%; /* Set a width to make buttons fit in the container with a small gap */
+                                            }
+                                        </style>
+                                    <div class="row" id="search-results">
+                                                        {% for service in services %}
+                                                            <div class="col-lg-4  mb-4">
+                                                                <div class="meeting-item" style="width: 100%;">
+                                                                    <div class="thumb" style="text-align: center;">
+                                                                        {% if service.getImg() is not null %}
+                                                                            <img src="{{ asset('uploads/images/' ~ service.getImg()) }}" alt="{{ service.getServicename() }}" style="width: 100%; height: auto;">
+                                                                        {% else %}
+                                                                            <p>No image available</p>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="down-content">
+                                                                        <div class="date">
+                                                                            <h6 >NAME OF THE SERVICE: <b>{{ service.getServicename() }} </b></h6>
+                                                                        </div>
+                                                                        <h4>PRICE :{{ service.getPrice() }}</h4><br>
+                                                                        <button class="btn btn-danger" onclick="addToOrder({{ service.getServiceid() }})">Add me!</button>
+                                                                        <a class=" btn btn-danger " href="{{ path('app_orders_show_details' , {'serviceid': service.serviceid}) }}">Show</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                            <script>
+                                                    function addToOrder(serviceId) {
+                                                    // Send an AJAX request to your Symfony controller
                                                     $.ajax({
-                                                        url: "{{ path('search') }}",
-                                                        method: "GET",
-                                                        data: { serviceName: serviceName },
-                                                        dataType: 'html',
-                                                        success: function (response) {
-                                                            // Replace the content with the new card
-                                                            $('#search-results').html(response);
-                                                            if (response.message) {
-                                                                // Display a pop-up with the message
-                                                                alert(response.message);
-                                                            }
+                                                        url: "{{ path('add_to_order') }}",
+                                                        method: "POST",
+                                                        data: { serviceId: serviceId },
+                                                        
+                                                        success: function(response) {
+                                                            alert("Service added to order!");  // You can handle the response as needed
                                                         },
-                                                        error: function (error) {
-                                                            console.error("Error searching:", error);
+                                                        error: function(error) {
+                                                            console.error("Error adding service to order:", error);
                                                         }
                                                     });
+                                                }
+                                            </script>
+                                            <script>
+                                                $(document).ready(function () {
+                                                    $('#search-form').on('submit', function (e) {
+                                                        e.preventDefault();
+    
+                                                        // Get the input value
+                                                        var serviceName = $('#search-input').val();
+    
+                                                        // Make an AJAX request
+                                                        $.ajax({
+                                                            url: "{{ path('search') }}",
+                                                            method: "GET",
+                                                            data: { serviceName: serviceName },
+                                                            dataType: 'html',
+                                                            success: function (response) {
+                                                                // Replace the content with the new card
+                                                                $('#search-results').html(response);
+                                                                if (response.message) {
+                                                                    // Display a pop-up with the message
+                                                                    alert(response.message);
+                                                                }
+                                                            },
+                                                            error: function (error) {
+                                                                console.error("Error searching:", error);
+                                                            }
+                                                        });
+                                                    });
                                                 });
-                                            });
-                                        </script>
+                                            </script>
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </div>
+                </div>   
+                    <!-- Sidebar -->
+                <div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
+                    <div class="product-categori">
+                        <!-- Search Form -->
+                        <div class="search-product">
+                            <form action="#">
+                                <input class="form-control" placeholder="Search here..." type="text">
+                                <button type="submit"> <i class="fa fa-search"></i> </button>
+                            </form>
+                        </div>
+
+                        <!-- Categories -->
+                        <div class="filter-sidebar-left">
+                            <div class="title-left">
+                                <h3>Categories</h3>
+                            </div>
+                            <!-- Your category filters here -->
+                                <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men" data-children=".sub-men">
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-men1" data-toggle="collapse" aria-expanded="true" aria-controls="sub-men1">Filter now <small class="text-muted">(100)</small>
+                                    </a>
+                                        <div class="collapse show" id="sub-men1" data-parent="#list-group-men">
+                                            <div class="list-group">
+                                                <a href="#" class="list-group-item list-group-item-action active">Top Rated <small class="text-muted">(50)</small></a>
+                                                <a href="#" class="list-group-item list-group-item-action">Promotion <small class="text-muted">(10)</small></a>
+                                                <a href="#" class="list-group-item list-group-item-action">Low Budget <small class="text-muted">(10)</small></a>
+                                                <a href="#" class="list-group-item list-group-item-action">Max Budget <small class="text-muted">(10)</small></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                        </div>
+
+                        
+
+                        <!-- Custom Categories -->
+                        <div class="categories meeting-item">
+                            <h4>hey Mr Sghaier louay  </h4>
+                            <ul>
+                                    <li>Your Current money</li><br>
+                                    <li>The Total Amount</li><br>
+                                    <li>The Last Money To pay</li><br>
+                                    <li>Number of your order</li><br>
+                                    <li>Check for Promo-Code</li>
+                                </ul>
+                            <div class="main-button-red">
+                                <a href="{{ path('app_orders_index') }}">Finaliser votre achat</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+
         </div>
-    </section>
+    </div>
+</div>
+<!-- End Shop Page -->
+             
+            
     <!--top button -->
         <a class="bg-danger" href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
 

@@ -19,32 +19,97 @@ use App\Service\CurrentUserService;
 class OrdersController extends AbstractController
 {
     #[Route('/pannier', name: 'app_orders_index', methods: ['GET'])]
-    public function index(OrdersRepository $ordersRepository): Response
+    public function index(OrdersRepository $ordersRepository, Request $request): Response
     {
+        // Calculate the sum of paid orders
+        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders();
+        $couponPrice = 0;
+        $orderCount = $ordersRepository->countOrdersForUser(1);
+    
+        // Add any additional fixed value (e.g., 2 in your case)
+        $sumOfPaidOrders += 2;
+    
+        // Render the template
         return $this->render('orders/index.html.twig', [
-            'orders' => $ordersRepository->findAll(),
+            'orders' => $ordersRepository->findOrdersByUser(1),
+            'sumOfPaidOrders' => $sumOfPaidOrders,
+            'couponPrice' => $couponPrice,
+            'orderCount'=>  $orderCount,
         ]);
     }
-
-  /*  #[Route('/shop', name: 'app_orders_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        // Fetch services from the database
-        $services = $this->getDoctrine()->getRepository(Service::class)->findAll();
-
-        return $this->render('service/ServicesShop.html.twig', [
-            'services' => $services,
+    #[Route('/update-order-summary', name: 'app_update_order_summary', methods: ['GET'])]
+    public function updateOrderSummary(OrdersRepository $ordersRepository, Request $request): Response
+    {   
+        // Calculate the sum of paid orders
+        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders();
+        $orderCount = $ordersRepository->countOrdersForUser(1);
+        $previousSumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders();
+        // Get the coupon code from the request
+        $couponCode = $request->get('couponCode');
+        $couponPrice = 0;
+        // Check if the coupon code is "ecofriendlyesprit" and apply a discount
+        if ($couponCode === 'ecofriendlyesprit') {
+            $sumOfPaidOrders -= 10;
+            $couponPrice = 10;
+        }
+    
+        // Add any additional fixed value (e.g., 2 in your case)
+        $sumOfPaidOrders += 2;
+        $previousSumOfPaidOrders+=2;
+        $updated = $sumOfPaidOrders !== $previousSumOfPaidOrders;
+        // Render the template
+        $orderSummaryHtml = $this->renderView('orders/index_order_summary.html.twig', [
+            'orders' => $ordersRepository->findOrdersByUser(1),
+            'sumOfPaidOrders' => $sumOfPaidOrders,
+            'couponPrice' => $couponPrice,
+            'orderCount'=>  $orderCount,
         ]);
-    }*/
-
-    #[Route('/{orderid}', name: 'app_orders_show', methods: ['GET'])]
-    public function show(Orders $order): Response
-    {
-        return $this->render('orders/show.html.twig', [
-            'order' => $order,
-        ]);
+        
+        // Return a JSON response with the updated HTML
+        return new JsonResponse(['html' => $orderSummaryHtml, 'updated' => $updated]);
     }
+   
+  
+    #[Route('/checkout', name: 'app_orders_checkout', methods: ['GET'])]
+    public function checkout(OrdersRepository $ordersRepository, Request $request): Response
+    {   $orderCount = $ordersRepository->countOrdersForUser(1);
+        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders()+2;
 
+        $updateResponse = $this->updateOrderSummary($ordersRepository, $request);
+        $responseData = json_decode($updateResponse->getContent(), true);
+        
+        if (isset($responseData['updated']) && $responseData['updated'])
+            
+            {
+                
+                $sumOfPaidOrders -= 10;
+                $couponPrice = 10;
+                return $this->render('orders/checkout.html.twig', [
+                    'orders' => $ordersRepository->findOrdersByUser(1),
+                    'sumOfPaidOrders' => $sumOfPaidOrders,
+                    'couponPrice' => $couponPrice,
+                    'orderCount' => $orderCount,
+                ]);
+            
+            }
+       
+           else{
+
+                            
+            $couponPrice = 0;
+            
+            return $this->render('orders/checkout.html.twig', [
+                'orders' => $ordersRepository->findOrdersByUser(1),
+                'orderCount' => $orderCount,
+                'sumOfPaidOrders' => $sumOfPaidOrders,
+                'couponPrice' => $couponPrice,
+            ]);
+
+        }
+
+    }
+    
+    
     #[Route('/{orderid}/edit', name: 'app_orders_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Orders $order, EntityManagerInterface $entityManager): Response
     {

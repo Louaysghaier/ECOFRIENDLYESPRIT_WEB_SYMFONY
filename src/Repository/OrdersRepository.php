@@ -18,4 +18,38 @@ class OrdersRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Orders::class);
     }
+     /**
+     * Find orders by user ID.
+     *
+     * @param int $userId
+     * @return Orders[]
+     */
+    public function findOrdersByUser(int $userId): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.userid = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
+    public function calculateSumOfPaidOrders(): float
+    {
+        return (float) $this->createQueryBuilder('o')
+            ->select('SUM(o.priceorder)') // Assuming there is a property named totalAmount
+            ->where('o.status = :status')
+            ->setParameter('status', 'wanted') 
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function countOrdersForUser($userId)
+    {
+        return $this->createQueryBuilder('o')
+            ->select('COUNT(o.orderid)')
+            ->where('o.userid = :userId')
+            ->andWhere('o.status = :status')
+            ->setParameter('userId', $userId)
+            ->setParameter('status', 'wanted')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

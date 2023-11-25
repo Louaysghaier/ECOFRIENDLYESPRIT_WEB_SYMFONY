@@ -44,9 +44,9 @@ class Orders
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="string", length=255, nullable=false, options={"default"="'disponible'"})
+     * @ORM\Column(name="status", type="string", length=255, nullable=false, options={"default"="wanted"})
      */
-    private $status = '\'disponible\'';
+    private $status = 'wanted';
 
     /**
      * @var string|null

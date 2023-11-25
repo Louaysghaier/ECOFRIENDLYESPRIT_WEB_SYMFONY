@@ -1,47 +1,180 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Orders index{% endblock %}
+{% block title %}Orders{% endblock %}
 
 {% block body %}
-<section class="contact-us" id="contact">
 
-<h1>Orders History </h1>
+ <!-- css  -->
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/responsive.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/style.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/bootstrap.min.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/shopcss/css/custom.css') }}">
+       
+ 
+ <section class="heading-page header-text" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6>Welcome to Your Cart </h6>
+                    <h2>Check & Pay </h2>
+                    <div class="btn bg-danger" style="color: white; text-decoration-color: white;">Ask our chatbot</div>
+                </div>
+            </div>
+        </div>
+    </section> 
 
-    <table class="table">
-        <thead>
-            <tr>
+   <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            
+                                  
 
-                <th>NumOrder</th>
-                <th>Pickupdatetime</th>
-                <th>Status</th>
-                <th>Phonenumber</th>
-                <th>Priceorder</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for order in orders %}
-            <tr>
-                <td>{{ order.numOrder }}</td>
-                <td>{{ order.pickupdatetime ? order.pickupdatetime|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ order.status }}</td>
-                <td>{{ order.phonenumber }}</td>
-                <td>{{ order.priceorder }}</td>
-                <td>
-                    <a class=" btn bg-white" href="{{ path('app_orders_show', {'orderid': order.orderid}) }}">show</a>
-                        {{ include('orders/_delete_form.html.twig') }}
+                                <h1>Orders History </h1>
 
-                   <!-- <a href="{{ path('app_orders_edit', {'orderid': order.orderid}) }}">edit</a> -->
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                            <table class="table">
+                                        <thead>
+                                            <tr>
 
-   <a href="{{ path('app_service_shop') }}">Go To The SHop & Order more </a> 
-</section>
+                                        <th>NumOrder</th>
+                                        <th>Pickupdatetime</th>
+                                        <th>Status</th>
+                                        <th>Phonenumber</th>
+                                        <th>Priceorder</th>
+                                        <th>actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for order in orders %}
+                                    <tr>
+                                        <td>{{ order.numOrder }}</td>
+                                        <td>{{ order.pickupdatetime ? order.pickupdatetime|date('Y-m-d H:i:s') : '' }}</td>
+                                        <td>{{ order.status }}</td>
+                                        <td>{{ order.phonenumber }}</td>
+                                        <td>{{ order.priceorder }}</td>
+                                        <td>
+                                                {{ include('orders/_delete_form.html.twig') }}
+
+                                        <!-- <a href="{{ path('app_orders_edit', {'orderid': order.orderid}) }}">edit</a> -->
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="7">no records found</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <a  class="  bg-danger text-white" href="{{ path('app_service_shop') }}">
+                                <span style="font-size: 20px;">&larr;</span> Go Back To The Shop
+                            </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5 ">
+                <div class="col-lg-6 col-sm-6">
+                    <div class="coupon-box">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control shadow-lg" id="coupon-code-input" placeholder="Enter your coupon code" aria-label="Coupon code" type="text">
+                            <div class="input-group-append">
+                                <button id="apply-coupon-btn" class="btn btn-theme shadow-lg" type="button">Apply Coupon</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                    <!-- Add this script to your HTML file -->
+                    <script>
+                        $(document).ready(function () {
+                            // Add an event listener to the "Apply Coupon" button
+                            $('#apply-coupon-btn').on('click', function () {
+                                // Get the value from the coupon code input
+                                var couponCode = $('#coupon-code-input').val();
+
+                                // Make an AJAX request to your Symfony controller
+                                $.ajax({
+                                    url: "{{ path('app_update_order_summary') }}", 
+                                    method: "GET",
+                                    data: { couponCode: couponCode },
+                                    dataType: 'json',
+                                    contentType: 'application/json',
+                                    success: function (response) {
+                                        // Replace the content with the updated HTML
+                                        $('#order-summary-container').html(response.html);
+                                        console.log("valid applying coupon:",couponCode);
+                                        console.log("AJAX Response:", response);
+                                         // Check if there were updates
+                                        var checkoutUrl = "{{ path('app_orders_checkout', {'updated': 'true'}) }}";
+                                        var normalCheckoutUrl = "{{ path('app_orders_checkout') }}";
+                                        
+                                        // Use the updated flag to determine the checkout URL
+                                        var finalCheckoutUrl = response.updated ? checkoutUrl : normalCheckoutUrl;
+
+                                        // Update the href attribute of the checkout button
+                                        $('#checkout-btn').attr('href', finalCheckoutUrl);
+                                    },
+                                    error: function (error) {
+                                        console.error("Error applying coupon:", error);
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+
+                <div class="col-lg-6 col-sm-6 ">
+                    <div class="update-box shadow-lg">
+                        <input value="Update Cart" type="submit">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5" id="order-summary-container">
+                <div class="col-lg-8 col-sm-12"></div>
+                <div class="col-lg-4 col-sm-12">
+                    <div class="order-box shadow-lg">
+                        <h3>Order summary</h3>
+                        <div class="d-flex">
+                            <h4>Numbers</h4>
+                            <div class="ml-auto font-weight-bold">{{orderCount}}</div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Discount</h4>
+                            <div class="ml-auto font-weight-bold">$ {{ couponPrice }}</div>
+                        </div>
+                        <hr class="my-1">
+                        <div class="d-flex">
+                            <h4>Coupon Discount</h4>
+                            <div class="ml-auto font-weight-bold">$ {{ couponPrice }}</div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Tax</h4>
+                            <div class="ml-auto font-weight-bold">$ 2</div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Shipping Cost</h4>
+                            <div class="ml-auto font-weight-bold">Free</div>
+                        </div>
+                        <hr>
+                        <div class="d-flex gr-total">
+                            <h5>Grand Total</h5>
+                            <div class="ml-auto h5">$ {{sumOfPaidOrders}}</div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                    <div class="col-12 d-flex shopping-box">
+                    <a   href="{{ path('app_orders_checkout') }}" class="ml-auto btn hvr-hover">Checkout</a>
+                    </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    
 {% endblock %}
+   

@@ -140,11 +140,7 @@ public function search(Request $request): JsonResponse
     // Render the services as HTML using the same Twig template
     $html = $this->renderView('service/ServicesShop.html.twig', ['services' => $services]);
 
-    // Check if there are search results
-    if (empty($services)) {
-        alert("Service doesnot exist ");
-    }
-
+    
     // Return a valid JSON response with HTML and no message
     return new JsonResponse(['html' => $html]);
 }
