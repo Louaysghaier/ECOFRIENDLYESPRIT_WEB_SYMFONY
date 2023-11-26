@@ -104,11 +104,10 @@
                                     success: function (response) {
                                         // Replace the content with the updated HTML
                                         $('#order-summary-container').html(response.html);
-                                        console.log("valid applying coupon:",couponCode);
                                         console.log("AJAX Response:", response);
                                          // Check if there were updates
-                                        var checkoutUrl = "{{ path('app_orders_checkout', {'updated': 'true'}) }}";
-                                        var normalCheckoutUrl = "{{ path('app_orders_checkout') }}";
+                                        var checkoutUrl = "{{ path('app_orders_checkout_updated', {'updated': 'true'}) }}";
+                                        var normalCheckoutUrl = "{{ path('app_orders_checkout_normal') }}";
                                         
                                         // Use the updated flag to determine the checkout URL
                                         var finalCheckoutUrl = response.updated ? checkoutUrl : normalCheckoutUrl;
@@ -165,13 +164,11 @@
                         <hr>
                     </div>
                 </div>
+                </div>
                     <div class="col-12 d-flex shopping-box">
-                    <a   href="{{ path('app_orders_checkout') }}" class="ml-auto btn hvr-hover">Checkout</a>
+                    <a  id="checkout-btn"  href="{{ path('app_orders_checkout_normal') }}" class="ml-auto btn hvr-hover">Checkout</a>
                     </div>
-            </div>
-
-
-        </div>
+                </div>
     </div>
 
 

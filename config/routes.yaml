@@ -1,7 +1,19 @@
 index:
-   path: /template
-   controller: App\Controller\TemplateController::index
+  path: /template
+  controller: App\Controller\TemplateController::index
 add_to_order:
-   path: /add-to-order
-   controller: App\Controller\OrdersController::addToOrder
-   methods: ['POST']
+  path: /add-to-order
+  controller: App\Controller\OrdersController::addToOrder
+  methods: ["POST"]
+app_orders_checkout_updated:
+  path: "/orders/checkout/{updated}"
+  controller: 'App\Controller\OrdersController::checkoutUpdated'
+  methods: ["GET", "POST"]
+  requirements:
+    updated: "true|false" # Valid values for the 'updated' parameter
+
+# Define a route without the 'updated' parameter
+app_orders_checkout_normal:
+  path: "/orders/checkout"
+  controller: 'App\Controller\OrdersController::checkoutNormal'
+  methods: ["GET", "POST"]

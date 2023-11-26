@@ -70,45 +70,67 @@ class OrdersController extends AbstractController
     }
    
   
-    #[Route('/checkout', name: 'app_orders_checkout', methods: ['GET'])]
-    public function checkout(OrdersRepository $ordersRepository, Request $request): Response
-    {   $orderCount = $ordersRepository->countOrdersForUser(1);
-        $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders()+2;
+    /*#[Route('/checkout', name: 'app_orders_checkout', methods: ['GET'])]
+public function checkout(OrdersRepository $ordersRepository, Request $request): Response
+{   
+    $orderCount = $ordersRepository->countOrdersForUser(1);
+    $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders() + 2;
 
-        $updateResponse = $this->updateOrderSummary($ordersRepository, $request);
-        $responseData = json_decode($updateResponse->getContent(), true);
-        
-        if (isset($responseData['updated']) && $responseData['updated'])
-            
-            {
-                
-                $sumOfPaidOrders -= 10;
-                $couponPrice = 10;
-                return $this->render('orders/checkout.html.twig', [
-                    'orders' => $ordersRepository->findOrdersByUser(1),
-                    'sumOfPaidOrders' => $sumOfPaidOrders,
-                    'couponPrice' => $couponPrice,
-                    'orderCount' => $orderCount,
-                ]);
-            
-            }
-       
-           else{
+    $updateResponse = $this->updateOrderSummary($ordersRepository, $request);
+    $responseData = json_decode($updateResponse->getContent(), true);
 
-                            
-            $couponPrice = 0;
-            
-            return $this->render('orders/checkout.html.twig', [
-                'orders' => $ordersRepository->findOrdersByUser(1),
-                'orderCount' => $orderCount,
-                'sumOfPaidOrders' => $sumOfPaidOrders,
-                'couponPrice' => $couponPrice,
-            ]);
-
-        }
-
+    if (isset($responseData['updated']) && $responseData['updated']) {
+        $sumOfPaidOrders -= 10;
+        $couponPrice = 10;
+    } else {
+        $couponPrice = 0;
     }
+
+    return $this->render('orders/checkout.html.twig', [
+        'orders' => $ordersRepository->findOrdersByUser(1),
+        'sumOfPaidOrders' => $sumOfPaidOrders,
+        'couponPrice' => $couponPrice,
+        'orderCount' => $orderCount,
+        'updated' => $responseData['updated'],
+    ]);
+}*/
+#[Route('/checkout/{updated}', name: 'app_orders_checkout_updated', methods: ['GET', 'POST'], requirements: ['updated' => 'true|false'])]
+    public function checkoutUpdated($updated, OrdersRepository $ordersRepository): Response
+    {
+   
+    $orderCount = $ordersRepository->countOrdersForUser(1);
+    $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders() + 2;
+
     
+
+        $sumOfPaidOrders -= 10;
+        $couponPrice = 10;
+   
+
+    return $this->render('orders/checkout.html.twig', [
+        'orders' => $ordersRepository->findOrdersByUser(1),
+        'sumOfPaidOrders' => $sumOfPaidOrders,
+        'couponPrice' => $couponPrice,
+        'orderCount' => $orderCount,
+    ]);
+}
+    #[Route('/checkout', name: 'app_orders_checkout_normal', methods: ['GET', 'POST'])]
+    public function checkoutNormal(OrdersRepository $ordersRepository): Response
+    { 
+    $orderCount = $ordersRepository->countOrdersForUser(1);
+    $sumOfPaidOrders = $ordersRepository->calculateSumOfPaidOrders() + 2;
+
+   
+        $couponPrice = 0;
+    
+
+    return $this->render('orders/checkout.html.twig', [
+        'orders' => $ordersRepository->findOrdersByUser(1),
+        'sumOfPaidOrders' => $sumOfPaidOrders,
+        'couponPrice' => $couponPrice,
+        'orderCount' => $orderCount,
+    ]);
+} 
     
     #[Route('/{orderid}/edit', name: 'app_orders_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Orders $order, EntityManagerInterface $entityManager): Response
