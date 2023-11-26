@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CommentType extends AbstractType
 {
@@ -25,8 +26,21 @@ class CommentType extends AbstractType
 
         $builder
             
-            ->add('descriptionComment')
-            ->add('Published',SubmitType::class);
+            //->add('descriptionComment')
+            ->add('descriptionComment', TextType::class, [
+                'attr' => [
+                    //'class' => 'my-custom-input', // Ajouter des classes CSS
+                    'style' => 'width: 100%; height: 80px;',
+                     // Ajouter des styles en ligne
+                    // Ajouter d'autres attributs HTML au besoin
+                ],
+            ])
+            ->add('Share', SubmitType::class, [
+                'label' => 'Share',
+                'attr' => [
+                    'class' => 'btn btn-primary float-right',
+                ],
+            ]);
 
         ;
     }

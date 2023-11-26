@@ -158,7 +158,7 @@ class Post
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
-            $comment->setPost($this);
+            $comment->setIdPost($this);
             $this->nbresComments++; // Incrémentation du nombre de commentaires
         }
 
@@ -185,4 +185,9 @@ class Post
         return $this->comments;
     }
 
+    public function getCommentCount(): int
+    {
+        return count($this->comments);
+    }
+    
 }

@@ -31,3 +31,21 @@
     justify-content: center;
     text-align: center;
 }
+.header-project{
+    Padding-right : 0px;
+}
+/* public/css/styles.css */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+    height: 200px;
+    width: 500px;
+}

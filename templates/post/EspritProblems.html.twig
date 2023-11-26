@@ -25,9 +25,35 @@
                 </ul>
               </div>
             </div>
-            {% for post in p %}
-                <div class="col-lg-12">
+             <div class="list-container">
+                {% set sortedPosts = p|sort((a, b) => b.dateCreationPost.timestamp - a.dateCreationPost.timestamp) %}
+                  {% for post in sortedPosts %}
+                    <div class="card" style="margin-bottom: 20px; width: 1100px; height: auto;">
+                    {#<div class="card-content" style="width: 1000px;">#}
+                      <div class="down-content">
+                        <h6 style=" text-align: right; padding :15px; color: #B22222">{{ post.dateCreationPost|date('Y-m-d') }}</h6>
+                        <h4 style="color: black; padding-left :60px; text-align: left;">{{ post.title }}</h4>
+                        <p style=" padding-left  :25px; text-align: left;">{{ post.descriptionPost }}</p>
+                        {% if post.imagePost is not null %}
+                          <div style="display: flex; justify-content: center; align-items: center;">
+                            <img src="{{ asset(post.getImagePost()) }}" alt="" style="max-width: 300px; max-height: 300px ;">
+                          </div> 
+                        {% endif %}
+                        <div style="display: flex; align-items: center;">
+                          <ul style="display: flex; gap: 10px; margin-right: 10px;">
+                              <li data-filter="*" style="padding-right: 20px;"><a href="{{ path('addComment', {'postId': post.getId()}) }}">Add Comment</a></li>
+                              <li data-filter="*"><a href="{{ path('Readcommentfront', {'postId': post.getId()}) }}">Read Comment</a></li>
+                          </ul>
+                          <p style="padding-left: 600px; margin-right: 10px;">Number of Comments: {{ post.getNbresComments() }}</p>
+                        </div>
+                      </div> 
+                    </div>
+                    
+                 {% endfor %}
+              </div>
+                {#<div class="col-lg-12">
                     <div class="row grid">
+                     {% for post in p %}
                         <div class="col-lg-4 templatemo-item-col all soon">
                             <div class="meeting-item">
                                 <div class="thumb">
@@ -42,15 +68,16 @@
                                          <h6>{{ post.getDateCreationPost().format('Y-m-d ') }}</h6>
                                     </div>
                                     {#<h4>{{ post.getPrenomUser() }} {{ post.getNomUser() }}</h4>#}
-                                    <h4>{{ post.getTitle() }}</h4>
+                                    {#<h4>{{ post.getTitle() }}</h4>
                                     <p>{{ post.getDescriptionPost() }}</p>
-                                     li data-filter="*"><a href="{{ path('addComment') , {'postId': post.getId()}) }}">Add Comment</a></li>
+                                    <li data-filter="*"><a href="{{ path('addComment' , {'postId': post.getId()})  }}">Add Comment</a></li>
+                                     <li data-filter="*"><a href="{{ path('Readcommentfront' , {'postId': post.getId()})  }}">Read Comment</a></li>
                                 </div>
                             </div>
                         </div>
+                     {% endfor %}
                     </div>
-                </div>
-            {% endfor %}
+                </div>#}
           </div>
         </div>
       </div>

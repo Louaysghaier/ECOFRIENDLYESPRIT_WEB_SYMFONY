@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\User;
+use App\Entity\Post;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,35 +24,86 @@ class CommentController extends AbstractController
         ]);
     }
 
-    #[Route('/addComment/{postId}', name: 'addComment')]
+    /*#[Route('/addComment/{postId}', name: 'addComment')]
     public function addComment(ManagerRegistry $manager, Request $request, $postId): Response
     {
         $em = $manager->getManager();
         //$user = $this->getUser();
         $comment = new Comment();
-        
+        $post = new Post();
         $form = $this->createForm(CommentType::class,$comment,/*[
             'user' => $user,
-        ]*/);
+        ]*//*);
         $form->handleRequest($request);
+        $postRepository = $this->getDoctrine()->getRepository(Post::class);
+        $post = $postRepository->findBy(['idPost' => $postId]);
+        $nbr->getNbresComments();
+        $nbrre = $nbr +1;
         if($form->isSubmitted() && $form->isValid())
         {
         
             $comment->setIdPost($postId);
             $comment->prePersist();
+            $post->setNbresComments($nbrre);
             //$comment->setIduser($user);
-
+            
             $em->persist($comment);  //add
             $em->flush();
 
             return $this->redirectToRoute('SaleandExchange');
         }
         return $this->render("comment/addComment.html.twig",[
-         'form'=>$form->createView()
+            'c'=>$comment,
+            'postId' => $postId,
+         'form'=>$form->createView(),
          ]);
 
         
+    }*/
+    #[Route('/addComment/{postId}', name: 'addComment')]
+    public function addComment(ManagerRegistry $manager, Request $request, $postId): Response
+    {
+        $em = $manager->getManager();
+
+        // Récupérer le post associé
+        $postRepository = $this->getDoctrine()->getRepository(Post::class);
+        $post = $postRepository->find($postId);
+
+        if (!$post) {
+            throw $this->createNotFoundException('Post not found');
+        }
+
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        // Récupérer le nombre actuel de commentaires
+        $nbr = $post->getNbresComments();
+        $nbrre = $nbr + 1;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setIdPost($postId);
+            $comment->prePersist();
+
+            // Ajouter le commentaire au post
+            //$post->addComment($comment);
+
+            // Mettre à jour le nombre de commentaires dans le post
+            $post->setNbresComments($nbrre);
+
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirectToRoute('SaleandExchange');
+        }
+
+        return $this->render("comment/addComment.html.twig", [
+            'c' => $comment,
+            'postId' => $postId,
+            'form' => $form->createView(),
+        ]);
     }
+
     #[Route('/Readcomment', name: 'Readcomment')]
     public function ReadComment(): Response
     {

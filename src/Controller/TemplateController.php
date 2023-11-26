@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TemplateController extends AbstractController
 {
-    #[Route('/template', name: 'app_template')]
+    #[Route('/template', name: 'apptemplate')]
     public function index(): Response
     {
         return $this->render('template/index.html.twig', [
@@ -16,7 +16,7 @@ class TemplateController extends AbstractController
         ]);
     }
 
-    #[Route('/templateback', name: 'app_template')]
+    #[Route('/templateback', name: 'apptemplateback')]
     public function indexback(): Response
     {
         return $this->render('template/indexback.html.twig', [

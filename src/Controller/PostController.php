@@ -28,14 +28,32 @@ class PostController extends AbstractController
         $em = $manager->getManager();
         //$user = $this->getUser();
         $post = new Post();
-    
-        $form = $this->createForm(PostType::class,$post,/*[
-            'user' => $user,
-        ]*/);
+        
+        $form = $this->createForm(PostType::class,$post,[
+            //'user' => $user,
+          
+        ]);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+            $uploadedFile = $form->get('imagePost')->getData();
+    
+            if ($uploadedFile) {
+                $imageDirectory = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = uniqid().'.'.$uploadedFile->guessExtension();
+    
+                try {
+                    $destination = $this->getParameter('kernel.project_dir').'/public/uploads/images/';
+                    $uploadedFile->move($destination, $newFilename);
+                } catch (FileException $e) {
+                    // Handle the file upload exception
+                }
+    
+                $post->setImagePost('uploads/images/'.$newFilename);
+            }
+        
             $post->prePersist();
+            //$post->setNbresComments(getCommentCount());
             //$post = $form->getData();
             //$post->setIduser($user);
 
@@ -122,7 +140,7 @@ public function deletePost($postId): Response
     #[Route('/SaleandExchange', name: 'SaleandExchange')]
     public function SaleandExchange(): Response
     {
-        $posts =$this->getDoctrine()->getManager()->getRepository(Post::class)->findAll();
+        $posts =$this->getDoctrine()->getManager()->getRepository(Post::class)->findBy(['Subject' => 'Sale & Exchange']);
         return $this->render('post/SaleandExchange.html.twig', [
             'p'=>$posts
         ]);
@@ -130,7 +148,7 @@ public function deletePost($postId): Response
     #[Route('/CodingProblems', name: 'CodingProblems')]
     public function CodingProblems(): Response
     {
-        $posts =$this->getDoctrine()->getManager()->getRepository(Post::class)->findAll();
+        $posts =$this->getDoctrine()->getManager()->getRepository(Post::class)->findBy(['Subject' => 'Coding Problems']);
         return $this->render('post/CodingProblems.html.twig', [
             'p'=>$posts
         ]);
@@ -138,7 +156,7 @@ public function deletePost($postId): Response
     #[Route('/EspritProblems', name: 'EspritProblems')]
     public function EspritProblems(): Response
     {
-        $posts =$this->getDoctrine()->getManager()->getRepository(Post::class)->findAll();
+        $posts =$this->getDoctrine()->getManager()->getRepository(Post::class)->findBy(['Subject' => 'Esprit Problems']);
         return $this->render('post/EspritProblems.html.twig', [
             'p'=>$posts
         ]);
@@ -151,4 +169,5 @@ public function deletePost($postId): Response
             'p'=>$posts
         ]);
     }
+    
 }

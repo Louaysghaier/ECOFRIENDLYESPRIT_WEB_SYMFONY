@@ -22,7 +22,11 @@
         </tr>
         <tr> 
             <div class="form-group">
-                {{ form_row(form.Published) }}
+            {#<li data-filter="*"><a href="{{ path('Readcommentfront', {'postId': c.getIdPost()}) }}">{{ form_row(form.Share) }}</a></li>#}
+            <li data-filter="*"><a href="{{ path('Readcommentfront', {'postId': postId }) }}">{{ form_row(form.Share) }}</a></li>
+
+
+                {#{{ form_row(form.Published) }}#}
             </div>
         </tr>
     </table>
