@@ -14,7 +14,7 @@
         <tr>
             <div class="form-group">
                 <div class="formu-Postlabel">
-                    {{ form_label(form.descriptionComment) }}
+                    <label class="col-sn-4 col-form-label">New Comment </label>
                 </div>
                 {{ form_widget(form.descriptionComment) }}
             </div>
@@ -22,15 +22,17 @@
         </tr>
         <tr> 
             <div class="form-group">
-            {#<li data-filter="*"><a href="{{ path('Readcommentfront', {'postId': c.getIdPost()}) }}">{{ form_row(form.Share) }}</a></li>#}
-            <li data-filter="*"><a href="{{ path('Readcommentfront', {'postId': postId }) }}">{{ form_row(form.Share) }}</a></li>
-
-
-                {#{{ form_row(form.Published) }}#}
+            <li data-filter="*"><a href="{{ path('Readcommentfront', {'postId': postId }) }}">{{ form_widget(form.Share) }}</a></li>
             </div>
         </tr>
     </table>
         {{ form_end(form) }}
+        {# Afficher les messages flash #}
+            {% for flashMessage in app.flashes('danger') %}
+                <div class="alert alert-danger">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
     </div>
     </div>
 </section>

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\User;
 use App\Entity\Post;
+use App\Bundle\BadWords;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,7 +62,7 @@ class CommentController extends AbstractController
         
     }*/
     #[Route('/addComment/{postId}', name: 'addComment')]
-    public function addComment(ManagerRegistry $manager, Request $request, $postId): Response
+    public function addComment(ManagerRegistry $manager, Request $request, $postId, BadWords $badWords): Response
     {
         $em = $manager->getManager();
 
@@ -82,8 +83,14 @@ class CommentController extends AbstractController
         $nbrre = $nbr + 1;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $comment->setIdPost($postId);
-            $comment->prePersist();
+            // Utilisez directement le service BadWords injecté
+            $commentContent = $comment->getDescriptionComment();
+            if ($badWords->containsBadWords($commentContent)) {
+                $this->addFlash('danger', 'The Comment has a BadWords.');
+                return $this->redirectToRoute('addComment', ['postId' => $postId]);
+            }
+                $comment->setIdPost($postId);
+                $comment->prePersist();
 
             // Ajouter le commentaire au post
             //$post->addComment($comment);

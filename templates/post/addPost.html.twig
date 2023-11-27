@@ -22,9 +22,11 @@
     <tr>
         <div class="form-group">
             <div class="formu-Postlabel">
-                {{ form_label(form.title) }}
+                <label class="col-sn-4 col-form-label">Title </label>
             </div>
-            {{ form_widget(form.title) }}
+            <div style="background-color: white;">
+                {{ form_widget(form.title) }}
+            </div>
         </div>
         {{ form_errors(form.title, { attr: { class: 'text-danger' }, only: true }) }}
    
@@ -32,7 +34,7 @@
     <tr>
         <div class="form-group">
             <div class="formu-Postlabel">
-                {{ form_label(form.descriptionPost) }}
+                <label class="col-sn-4 col-form-label">Content </label>
             </div>
             {{ form_widget(form.descriptionPost) }}
         </div>
@@ -40,7 +42,7 @@
     </tr>
         <div class="form-group">
             <div class="formu-Postlabel">
-                {{ form_label(form.imagePost) }}
+                <label class="col-sn-4 col-form-label">Upload Photo </label>
             </div>
             {{ form_widget(form.imagePost) }}
         </div>
@@ -54,7 +56,7 @@
         {# Bouton de soumission #}
     <tr> 
         <div class="form-group">
-            <li data-filter="*"><a href="{{ path('SaleandExchange') }}">{{ form_row(form.Share) }}</a></li> 
+            <li data-filter="*"><a href="{{ path('SaleandExchange') }}">{{ form_widget(form.Share) }}</a></li> 
         </div>
     </tr>
     </table>

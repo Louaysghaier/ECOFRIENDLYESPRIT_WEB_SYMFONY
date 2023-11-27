@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostType;
+use App\Bundle\Notification;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Notifier\NotifierInterface;
 
 class PostController extends AbstractController
 {
@@ -23,7 +25,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/addPost', name: 'addPost')]
-    public function addPost(ManagerRegistry $manager, Request $request): Response
+    public function addPost(ManagerRegistry $manager, Request $request, Notification $notificationService): Response
     {
         $em = $manager->getManager();
         //$user = $this->getUser();
@@ -57,8 +59,13 @@ class PostController extends AbstractController
             //$post = $form->getData();
             //$post->setIduser($user);
 
+            $notification = new Notification();
+            $notification->setMessage('New Post added check it!');
+
             $em->persist($post);  //add
             $em->flush();
+
+            $notificationService->sendNotification($notification);
 
             return $this->redirectToRoute('SaleandExchange');
         }
@@ -77,15 +84,6 @@ class PostController extends AbstractController
         ]);
     }
 
-    /*#[Route('/Deletepost/{postId}', name: 'Deletepost')]
-    public function DeleteComment($postId): Response
-    {
-        $em =$this->getDoctrine()->getManager();
-        $em->remove($postId);
-        $em->flush();
-
-        return $this->redirectToRoute('app_comment');
-    }*/
     #[Route('/deletePost/{postId}', name: 'deletePost')]
 public function deletePost($postId): Response
 {

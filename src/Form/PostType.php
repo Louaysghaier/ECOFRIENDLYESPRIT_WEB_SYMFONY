@@ -42,7 +42,7 @@ class PostType extends AbstractType
             //->add('title')
             ->add('title', TextType::class, [
                 'attr' => [
-                    'style' => 'width: 100%; height: 30px;',
+                    'style' => 'width: 100%; height: 30px; color: #FFFAF0;',
                 ],
             ])
             /*->add('imagePost', FileType::class, [

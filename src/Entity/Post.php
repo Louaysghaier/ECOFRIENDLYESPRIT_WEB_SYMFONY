@@ -35,6 +35,10 @@ class Post
 
     #[ORM\Column(length: 800)]
     #[Assert\NotBlank(message: 'La description ne peut pas être vide.')]
+    #[Assert\Length(
+        max : 100,
+        maxMessage: 'Le Contenu est trés long. Veuillez le minimiser. '
+    )]
     private ?string $descriptionPost = null;
 
     #[ORM\Column(length: 255, nullable: true)]
