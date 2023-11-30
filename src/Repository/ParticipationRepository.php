@@ -18,4 +18,31 @@ class ParticipationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Participation::class);
     }
+
+
+// EventRepository.php
+
+public function findByEventId($eventId)
+{
+    return $this->createQueryBuilder('e')
+        ->join('e.event', 'p')  // Change 'participations' to 'event'
+        ->where('e.id = :eventId')
+        ->setParameter('eventId', $eventId)
+        ->getQuery()
+        ->getResult();
+}
+
+
+
+
+public function countParticipationsByUser()
+{
+    return $this->createQueryBuilder('p')
+        ->select('COUNT(p.id) as totalParticipations, u.name as username')
+        ->leftJoin('p.user', 'u')
+        ->groupBy('u.id')
+        ->getQuery()
+        ->getResult();
+}
+
 }

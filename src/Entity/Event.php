@@ -14,6 +14,8 @@ use Gedmo\Mapping\Annotation\Timestampable;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\DateTime;
+
 
 
 
@@ -48,14 +50,15 @@ class Event
  */
 private $lieuevent;
 
-    /**
- * @var string
- *
- * @ORM\Column(name="datedebutevent", type="string", length=100, nullable=false)
- *  @Assert\NotBlank(message="La date de début de l'événement ne peut pas être vide.")
 
+/**
+ * @var \DateTime
+ *
+ * @ORM\Column(name="datedebutevent", type="datetime", nullable=false)
+ * @Assert\NotBlank(message="La date de début de l'événement ne peut pas être vide.")
  */
 private $datedebutevent;
+
 
 
     /**
@@ -148,6 +151,7 @@ private $descriptionevent;
 private $datecreation;
 
 
+
  
     /**
      * @var int|null
@@ -156,12 +160,23 @@ private $datecreation;
      */
     private $iduser = NULL;
 
+ 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="valid", type="string", length=255, nullable=true, options={"default"="'valid'"})
-     */
-    private $valid = '\'valid\'';
+    * @ORM\Column(name="valid", type="boolean", nullable=true, options={"default"=true})
+    */
+      private $valid = true;
+
+
+
+/**
+ * @var int
+ *
+ * @ORM\Column(name="current_nb_participants", type="integer", nullable=true, options={"default"=0})
+ */
+private $NbParticipants = 0;
+
+
+
 
     public function getIdevent(): ?int
     {
@@ -180,16 +195,22 @@ private $datecreation;
         return $this;
     }
 
-    public function getDatedebutevent(): ?string
-    {
-        return $this->datedebutevent;
-    }
-    
-    public function setDatedebutevent(?string $datedebutevent)
-    {
-        $this->datedebutevent = $datedebutevent;
-    }
-    
+   /**
+ * @return \DateTime
+ */
+public function getDatedebutevent(): ?\DateTime
+{
+    return $this->datedebutevent;
+}
+
+/**
+ * @param \DateTime $datedebutevent
+ */
+public function setDatedebutevent(\DateTime $datedebutevent): void
+{
+    $this->datedebutevent = $datedebutevent;
+}
+
 
     public function getDuree(): ?string
     {
@@ -285,6 +306,41 @@ private $datecreation;
         $this->datecreation = new \DateTime();
     }
 
+
+      /**
+     * @return bool|null
+     */
+    public function getValid(): ?bool
+    {
+        return $this->valid;
+    }
+
+    /**
+     * @param bool|null $valid
+     */
+    public function setValid(?bool $valid): void
+    {
+        $this->valid = $valid;
+    }
+
+
+/**
+ * @return int|null
+ */
+public function getNbParticipants(): ?int
+{
+    return $this->NbParticipants;
+}
+
+/**
+ * @param int|null $NbParticipants
+ */
+public function setNbParticipants(?int $NbParticipants): void
+{
+    $this->NbParticipants = $NbParticipants;
+}
+
+    
     public function getIduser(): ?int
     {
         return $this->iduser;
@@ -297,19 +353,32 @@ private $datecreation;
         return $this;
     }
 
-    public function getValid(): ?string
-    {
-        return $this->valid;
-    }
 
-    public function setValid(?string $valid): static
-    {
-        $this->valid = $valid;
 
-        return $this;
-    }
+
+
+ 
    
 
+    /**
+     * This property will hold the uploaded file during the form submission.
+     */
+    private $imageFile;
+
+    // Existing getters and setters...
+
+   
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile($imageFile): void
+    {
+        $this->imageFile = $imageFile;
+    }
+   
     
     }
 

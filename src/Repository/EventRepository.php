@@ -21,16 +21,40 @@ class EventRepository extends ServiceEntityRepository
 
 
 
-    public function findEventByName(string $eventName)
+    public function searchByName(string $query)
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.nomevent = :eventName')
-            ->setParameter('eventName', $eventName)
+            ->andWhere('e.nomevent LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
             ->getQuery()
             ->getResult();
     }
+    
+    // Dans le repository de votre entité
+    public function countTotalParticipantsByEventType($eventType)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('SUM(e.NbParticipants) as totalParticipants')
+            ->where('e.typeevent = :eventType')
+            ->setParameter('eventType', $eventType)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
+  // Dans votre repository EventRepository
+  public function findValidEvents()
+  {
+      return $this->createQueryBuilder('e')
+          ->where('e.valid = 1')
+          ->getQuery()
+          ->getResult();
+  }
 
-
-
+  public function findNonValidEvents()
+  {
+      return $this->createQueryBuilder('e')
+          ->where('e.valid = 0')
+          ->getQuery()
+          ->getResult();
+  }
 }

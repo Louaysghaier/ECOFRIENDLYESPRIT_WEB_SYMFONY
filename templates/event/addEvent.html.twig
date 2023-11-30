@@ -97,6 +97,14 @@
 
 
 <div class="form-group">
+    {{ form_label(form.image, ' Image') }}
+    {{ form_widget(form.image, {'attr': {'class': 'input-control'}}) }}
+    {{ form_errors(form.image) }}
+</div>
+
+
+
+<div class="form-group">
     {{ form_widget(form.save, {'attr': {'class': 'submit-btn'}}) }}
 </div>
 

@@ -20,7 +20,7 @@
 
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        <button type="submit">Rechercher</button>
+        
         {{ form_end(form) }}
 
         {% block search_content %}
@@ -42,7 +42,7 @@
                             <tr>
                                 <td>{{ event.getNomevent() }}</td>
                                 <td>{{ event.getLieuevent() }}</td>
-                                <td>{{ event.getDatedebutevent() }}</td>
+                                <td>{{ event.getDatedebutevent()|date('Y-m-d H:i:s') }}</td>
                             <td>{{ event.getDuree() }}</td>
                             <td>{{ event.getNbmaxparticipant() }}</td>
                             <td>{{ event.getPrixticket() }}</td>

@@ -15,7 +15,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\NotBlank;  
-use Symfony\Component\Validator\Constraints\Length;   
+use Symfony\Component\Validator\Constraints\Length;  
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\File as FileConstraint;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
+
+
+
 
 
 
@@ -72,19 +79,18 @@ class EventType extends AbstractType
         ]),
       ],
   ])
-
-    ->add('datedebutevent', TextType::class, [
-      'label' => 'Début de l\'événement',
-      'attr' => [
-          'placeholder' => 'Saisissez la date de début de l\'événement',
-          'novalidate' => 'novalidate',
-          // Ajoutez vos autres options au besoin
-      ],
-      'constraints' => [
-          new NotNull(['message' => 'La date de début de l\'événement ne peut pas être nulle.']),
-          // Ajoutez vos autres contraintes au besoin
-      ],
-    ])
+  ->add('datedebutevent', DateType::class, [
+    'label' => 'Début de l\'événement',
+    'widget' => 'single_text',
+    'attr' => [
+        'placeholder' => 'Saisissez la date de début de l\'événement',
+        // Ajoutez vos autres options au besoin
+    ],
+    'constraints' => [
+        new NotNull(['message' => 'La date de début de l\'événement ne peut pas être nulle.']),
+        // Ajoutez vos autres contraintes au besoin
+    ],
+])
   
   ->add('duree', TextType::class, [
       'attr' => [
@@ -115,20 +121,20 @@ class EventType extends AbstractType
 
 
 
-->add('typeevent', TextType::class, [
-  'label' => 'Type Event',
-  'attr' => [
-      'novalidate' => 'novalidate',
-      // Ajoutez vos autres options au besoin
-      'class' => 'input-control',
-  ],
-  'constraints' => [
-      new NotNull(['message' => 'Le type de l\'événement ne peut pas être nul.']),
-      new Length([
-          'min' => 5,
-          'minMessage' => 'Le type de l\'événement doit avoir au moins {{ limit }} caractères.',
-      ]),
-  ],
+->add('typeevent', ChoiceType::class, [
+    'label' => 'Type Event',
+    'attr' => [
+        'novalidate' => 'novalidate',
+        'class' => 'input-control',
+    ],
+    'choices' => [
+        'Sport' => 'Sport',
+        'Loisir' => 'Loisir',
+        'Culture' => 'Culture',
+    ],
+    'constraints' => [
+        new NotNull(['message' => 'Le type de l\'événement ne peut pas être nul.']),
+    ],
 ])
 
 
@@ -153,10 +159,12 @@ class EventType extends AbstractType
 
 
 
-
-
-
-
+->add('image', FileType::class, [
+    'label' => 'Image',
+    'mapped' => false,
+    'required' => false,
+   
+])
 
             ->add('save', SubmitType::class);
            // ->add('imageFile', VichImageType::class, [

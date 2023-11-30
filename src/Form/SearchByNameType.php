@@ -15,7 +15,7 @@ class SearchByNameType extends AbstractType
         $builder
             
             ->add('nomevent')
-            //->add('rechercher', SubmitType::class);
+            ->add('rechercher', SubmitType::class);
         ;
     }
 

@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ParticipationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\Request;
 /**
  * @ORM\Entity(repositoryClass=ParticipationRepository::class)
  */
@@ -18,9 +20,10 @@ class Participation
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=200)
-     */
-    private $codeQR;
+ * @ORM\Column(type="string", length=200, nullable=true)
+ */
+private $codeQR;
+
 
     
 /**
@@ -40,6 +43,16 @@ class Participation
      * @ORM\JoinColumn(nullable=false, name="idUser", referencedColumnName="iduser")
      */
     private $user;
+
+
+ // ... (autres propriétés)
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $paymentStatus;
+
+
 
     public function getId(): ?int
     {
@@ -81,15 +94,45 @@ class Participation
         return $this;
     }
 
-    public function getUser(): ?User2
+    public function getUser2(): ?User2
+{
+    return $this->user;
+}
+
+public function setUser2(?User2 $user): self
+{
+    $this->user = $user;
+
+    return $this;
+}
+
+
+
+public function getPaymentStatus(): ?bool
     {
-        return $this->user;
+        return $this->paymentStatus;
     }
 
-    public function setUser(?User2 $user): self
+    public function setPaymentStatus(bool $paymentStatus): self
     {
-        $this->user = $user;
+        $this->paymentStatus = $paymentStatus;
 
         return $this;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

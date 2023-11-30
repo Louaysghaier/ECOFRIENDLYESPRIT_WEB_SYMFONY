@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\User2Repository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * User2
@@ -62,7 +64,7 @@ class User2
      *
      * @ORM\Column(name="walletuser", type="float", precision=10, scale=0, nullable=false, options={"default"="250"})
      */
-    private $walletuser = 250;
+    private $walletuser ;
 
     /**
      * @var string
@@ -84,6 +86,23 @@ class User2
      * @ORM\Column(name="isBlocked", type="boolean", nullable=true)
      */
     private $isblocked = '0';
+
+
+/**
+     * @ORM\ManyToMany(targetEntity=Event::class)
+     * @ORM\JoinTable(name="panier",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="iduser")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="idEvent")}
+     * )
+     */
+    private $panier;
+
+/**
+ * @var string|null
+ *
+ * @ORM\Column(name="phoneNumber", type="string", length=20, nullable=true)
+ */
+private $phoneNumber;
 
     public function getIduser(): ?int
     {
@@ -151,11 +170,12 @@ class User2
     }
 
     public function getWalletuser(): ?float
-    {
-        return $this->walletuser;
-    }
+{
+    return $this->walletuser;
+}
 
-    public function setWalletuser(float $walletuser): static
+
+    public function setWalletuser(float $walletuser)
     {
         $this->walletuser = $walletuser;
 
@@ -197,6 +217,62 @@ class User2
 
         return $this;
     }
+
+
+
+    public function __construct()
+    {
+        $this->panier = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getPanier(): Collection
+    {
+        return $this->panier;
+    }
+
+    public function addPanier(Event $event): self
+    {
+        if (!$this->panier->contains($event)) {
+            $this->panier[] = $event;
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Event $event): self
+    {
+        $this->panier->removeElement($event);
+
+        return $this;
+    }
+
+
+
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+    
+    public function setPhoneNumber(?string $phoneNumber): self
+    {
+        $this->phoneNumber = $phoneNumber;
+    
+        return $this;
+    }
+    
+
+
+
+
+
+
+
+
+
 
 
 }

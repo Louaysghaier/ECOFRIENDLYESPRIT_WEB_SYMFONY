@@ -13,7 +13,17 @@ use App\Form\EventType;
 use App\Form\TimeType;
 use App\Form\SearchByNameType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-
+use App\Entity\Participation;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\User2;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use App\Service\MailService;
+use App\Repository\ParticipationRepository;
+use App\Repository\User2Repository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Twilio\Rest\Client;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 
 
@@ -37,24 +47,32 @@ class EventController extends AbstractController
     public function affiche(EventRepository $repo): Response
     {
         $events = $repo->findAll();
+      //  $paypalClientId = $this->getParameter('paypal_client_id');
         return $this->render('event/afficheevent.html.twig', [
             'events' => $events,
+          //  'paypal_client_id' => $paypalClientId,
         ]);
     }
     
 
 
+   
 
-
-
-    #[Route('/afficheventtt', name: 'afficheventtt')]
+    #[Route('/affichecard', name: 'affichecard')]
     public function affichecard(EventRepository $repo): Response
     {
-        $events = $repo->findAll();
+        // Récupérer uniquement les événements valides
+        $validEvents = $repo->findBy(['valid' => true]);
+        
+    //    $paypalClientId = $this->getParameter('paypal_client_id');
+
         return $this->render('event/affichecard.html.twig', [
-            'events' => $events,
+            'events' => $validEvents,
+           // 'paypal_client_id' => $paypalClientId,
+            
         ]);
     }
+    
 
 
 
@@ -65,6 +83,7 @@ class EventController extends AbstractController
     {
 
          //recuperer l auteur a supprimer
+
          $event=$repo->find($i);
           //recuperer le entity manager;le chef d orchestre de Orm
          $em=$doctrine->getManager();
@@ -105,84 +124,67 @@ class EventController extends AbstractController
 
 
     #[Route('/searchbyname', name: 'searchbyname')]
-    public function searchEvent(EventRepository $repo, Request $request): Response
-    {
-        $form = $this->createForm(SearchByNameType::class);
-        $form->handleRequest($request);
-        $event = null;
-    
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérez la valeur du champ de recherche
-            $eventName = $form->get('nomevent')->getData();
-    
-            // Utilisez la valeur pour effectuer votre recherche (insensible à la casse)
-            $event = $repo->findBy(['nomevent' => $eventName], ['nomevent' => 'ASC'], null, null, ['nomevent' => 'NOCASE']);
-    
-            // Faites quelque chose avec les résultats
-            if ($event) {
-                // Par exemple, affichez les détails de l'événement
-                return $this->render('event/searchbyname.html.twig', [
-                    'form' => $form->createView(),
-                    'event' => $event,
-                ]);
-            }
-        }
-    
-        return $this->render('event/searchbyname.html.twig', [
-            'form' => $form->createView(),
-            'event' => $event, 
-        ]);
+public function searchByName(EventRepository $eventRepository, Request $request): Response
+{
+    $query = $request->query->get('query');
+    $events = null;
+
+    // Check if a search query is provided
+    if ($query) {
+        // If a query is provided, perform the search
+        $events = $eventRepository->searchByName($query);
+    } else {
+        // If no query is provided, fetch all events
+        $events = $eventRepository->findAll();
     }
+
+    return $this->render('event/affichecard.html.twig', [
+        'events' => $events,
+        'query' => $query,
+    ]);
+}
+
     
-
-
-
-   // #[Route('/addEvent', name: 'addEvent')]
-    //public function ajoutA(ManagerRegistry $doctrine , Request $req): Response
-    //{ 
-    
-//instancier
-//$event=new Event();
-//creer l objet forme
-//$form=$this->createForm(StudentformType::class,$student);
-
-//récuperer les donnees saisies dans form 
-//$form->handleRequest($req);
-//if($form->isSubmitted()){
-   // $em = $doctrine->getManager();
-   // $em->persist($student);
-   // $em->flush();
-   // return $this->redirectToRoute('affichestu');}
-   // return $this->render('studentss/addstu.html.twig', [
-     //   'form' => $form->createView(),
-    //]);
-//}
 
 
 
     #[Route('/addEvent', name: 'addEvent')]
     public function ajoutA(ManagerRegistry $doctrine, Request $req): Response
-    {
-        // Instancier
+    { 
+        // Instancier l'objet Event
         $event = new Event();
     
-        // Créer l'objet formulaire
+        // Créer le formulaire
         $form = $this->createForm(EventType::class, $event);
-    
-        // Assigner l'utilisateur actuel (remplacez 1 par la valeur appropriée)
-        $event->setIduser(1);
     
         // Récupérer les données saisies dans le formulaire
         $form->handleRequest($req);
     
-        // Gérer l'upload d'image
         if ($form->isSubmitted() && $form->isValid()) {
-            
+            // Gestion de l'upload de l'image
+            $imageFile = $form->get('image')->getData();
+    
+            if ($imageFile) {
+                // Générer un nom unique pour le fichier
+                $newFilename = uniqid().'.'.$imageFile->getClientOriginalExtension();
+    
+                // Déplacer le fichier dans le répertoire où les images sont stockées
+                $imageFile->move(
+                    $this->getParameter('images_directory'),
+                    $newFilename
+                );
+    
+                // Stocker le nom du fichier dans la base de données
+                $event->setImage($newFilename);
+            }
+    
+            // Définir la date de création sur la date actuelle
             $event->setDateCreation(new \DateTime());
     
-            $em = $doctrine->getManager();
-            $em->persist($event);
-            $em->flush();
+            // Enregistrer l'événement dans la base de données
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($event);
+            $entityManager->flush();
     
             return $this->redirectToRoute('affichevent');
         }
@@ -191,48 +193,258 @@ class EventController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
+
+
+
     
- //   private function handleImageUpload($file, $event)
-   // {
-        // Générez un nom de fichier unique
-     //   $newFilename = uniqid().'.'.$file->guessExtension();
 
-       // try {
-            // Déplacez le fichier vers le répertoire où vous souhaitez stocker les images
-         //   $file->move($this->getParameter('kernel.project_dir').'/public/uploads', $newFilename);
 
-            // Mettez à jour l'entité Event avec le chemin de l'image
-           // $event->setImage('uploads/'.$newFilename);
-      //  } catch (FileException $e) {
-            // Gérez les exceptions liées au téléchargement de fichier ici
-        //}
-   // }
 
+  
 
 
  
     #[Route('/showDetails/{i}', name: 'showDetails')]
-     
-    public function showDetails($i,EventRepository $repo)
-    {
-        // Récupérer l'événement depuis le référentiel
-        $event=$repo->find($i);
+public function showDetails($i, EventRepository $repo)
+{
+    // Récupérer l'événement depuis le référentiel
+    $event = $repo->find($i);
 
-        // Vérifier si l'événement existe
-        if (!$event) {
-            throw $this->createNotFoundException('Event not found');
-        }
-
-        // Passer les données nécessaires à votre vue
-        return $this->render('event\showdetails.html.twig', [
-            'event' => $event,
-        ]);
+    // Vérifier si l'événement existe
+    if (!$event) {
+        throw $this->createNotFoundException('Event not found');
     }
 
+    // Récupérer le client ID PayPal
+    $paypalClientId = $this->getParameter('paypal_client_id');
+
+    // Passer les données nécessaires à votre vue
+    return $this->render('event/showdetails.html.twig', [
+        'event' => $event,
+        'paypal_client_id' => $paypalClientId,
+    ]);
+}
 
 
 
 
+#[Route('/panier/{i}', name: 'panier')]
+public function ajouterAuPanier(int $i): Response
+{
+    $entityManager = $this->getDoctrine()->getManager();
+    $eventRepository = $entityManager->getRepository(Event::class);
+    $userRepository = $entityManager->getRepository(User2::class);
+
+    $event = $eventRepository->find($i);
+
+    if (!$event) {
+        $this->addFlash('danger', 'L\'événement n\'a pas été trouvé.');
+        return $this->redirectToRoute('affichecard');  // Redirigez vers une page appropriée
+    }
+
+    // Remplacez 1 par l'id de l'utilisateur que vous souhaitez
+    $user = $userRepository->find(1);
+
+    if ($user) {
+        $user->addPanier($event);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'L\'événement a été ajouté au panier de l\'utilisateur avec succès.');
+        return $this->redirectToRoute('page_panier_succes', ['i' => $event->getIdEvent()]);
+    } else {
+        $this->addFlash('danger', 'L\'utilisateur n\'a pas été trouvé.');
+        return $this->redirectToRoute('affichecard');  // Redirigez vers une page appropriée
+    }
+}
+
+
+#[Route('/page_panier_succes', name: 'page_panier_succes')]
+public function pagePanierSucces(): Response
+{
+    return $this->render('event/succes.html.twig');
+}
+
+
+
+    
+   
+#[Route('/Monpanier', name: 'Monpanier')]
+public function Monpanier(): Response
+{
+    // Remplacez 1 par l'ID de l'utilisateur que vous souhaitez
+    $userId = 1;
+
+    // Récupérer l'utilisateur par son ID
+    $user = $this->getDoctrine()->getRepository(User2::class)->find($userId);
+
+    // Vérifier si l'utilisateur existe
+    if (!$user) {
+        // Rediriger ou afficher un message d'erreur, selon vos besoins
+        // ...
+
+        // Exemple de redirection vers la page d'accueil
+        return $this->redirectToRoute('affichecard');
+    }
+
+    // Récupérer les événements dans le panier de l'utilisateur
+    $eventsInPanier = $user->getPanier();
+
+    // Vérifier si le panier est vide
+    if (empty($eventsInPanier)) {
+        // Rediriger vers la page videpanier avec un message
+        return $this->redirectToRoute('vide');
+    }
+
+    // Passer les événements à la vue
+    return $this->render('event/monpanier.html.twig', [
+        'eventsInPanier' => $eventsInPanier,
+    ]);
+}
+
+#[Route('/vide', name: 'vide')]
+public function vide(): Response
+{
+    return $this->render('event/vide.html.twig', [
+        'msg' => 'Votre panier est vide!',
+    ]);
+}
+
+
+
+
+
+
+
+
+
+
+#[Route('/cancelEvent/{i}', name: 'cancelEvent')]
+public function cancelEvent($i, EventRepository $eventRepository, ParticipationRepository $partrepo, MailService $mailService, EventDispatcherInterface $eventDispatcher): Response
+{
+    // Récupérer l'événement depuis le repository
+    $event = $eventRepository->find($i);
+
+    if (!$event) {
+        throw $this->createNotFoundException('Événement non trouvé');
+    }
+
+    // Vérifier si l'événement n'est pas déjà annulé
+    if ($event->getValid()) {
+        // Mettre à jour le champ valid à false
+        $event->setValid(false);
+
+        // Enregistrez les modifications dans la base de données
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        // Envoyer un SMS à l'administrateur
+        $users = $this->getDoctrine()->getRepository(User2::class)->findAll();
+
+// Envoyer un SMS à tous les utilisateurs
+foreach ($users as $user) {
+    $userPhoneNumber = $user->getPhoneNumber();
+    
+    // Envoyer le SMS
+    $this->sendSms($userPhoneNumber, 'L\'événement a été annulé. Message à tous les utilisateurs.');
+}
+
+       
+        $message = sprintf('L\'événement "%s" prévu pour le %s a été annulé.', $event->getNomevent(), $event->getDatedebutevent()->format('Y-m-d'));
+
+        // Appeler la méthode d'envoi de SMS directement
+        //$this->sendSms($adminPhoneNumber, $message);
+
+        // Ajouter un message flash pour informer l'administrateur de l'annulation (facultatif)
+        $this->addFlash('success', 'L\'événement a été annulé avec succès.');
+
+        // Rediriger vers une page de succès
+        return $this->redirectToRoute('page_panier_succes');
+    } else {
+        // Ajouter un message flash pour informer l'utilisateur que l'événement est déjà annulé (facultatif)
+        $this->addFlash('info', 'L\'événement est déjà annulé.');
+
+        // Rediriger vers une autre page si nécessaire
+        return $this->redirectToRoute('affichevent');
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+private function sendSms($phoneNumber, $message)
+{
+    // Remplacez ces valeurs par vos propres clés Twilio
+    $accountSid = 'ACa17a97ab87a2159a860330be83fb50dc';
+    $authToken = '6fbbec5c0a2aa04f8f1cca2ab1e37680';
+    $twilioPhoneNumber = '+18325322932';
+
+    // Initialisez le client Twilio
+    $twilio = new Client($accountSid, $authToken);
+
+    try {
+        // Envoyez le SMS
+        $twilio->messages->create(
+            $phoneNumber, // Numéro de téléphone du destinataire
+            [
+                'from' => '+18325322932', // Votre numéro Twilio
+                'body' => $message,
+            ]
+        );
+    } catch (\Exception $e) {
+        // Gérez les erreurs d'envoi de SMS ici
+        // Vous pouvez journaliser l'erreur ou prendre d'autres mesures nécessaires
+        dump($e->getMessage()); // À des fins de débogage
+    }
+}
+
+#[Route('/stat', name: 'stat')]
+public function stat(): Response
+{
+    $entityManager = $this->getDoctrine()->getManager();
+
+    $sportTotalParticipants = $entityManager->getRepository(Event::class)->countTotalParticipantsByEventType('Sport');
+    $loisirTotalParticipants = $entityManager->getRepository(Event::class)->countTotalParticipantsByEventType('Loisir');
+    $cultureTotalParticipants = $entityManager->getRepository(Event::class)->countTotalParticipantsByEventType('Culture');
+
+    return $this->render('event/stat.html.twig', [
+        'sportTotalParticipants' => $sportTotalParticipants,
+        'loisirTotalParticipants' => $loisirTotalParticipants,
+        'cultureTotalParticipants' => $cultureTotalParticipants,
+    ]);
+}
+
+#[Route('/eventsbloc', name: 'eventsbloc')]
+    public function eventsbloc(Request $request, $status = 'all'): Response
+    {
+        // Récupérer l'EntityManager
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // Récupérer les événements en fonction du statut
+        if ($status == 'valid') {
+            $events = $entityManager->getRepository(Event::class)->findBy(['valid' => true]);
+        } elseif ($status == 'nonvalid') {
+            $events = $entityManager->getRepository(Event::class)->findBy(['valid' => false]);
+        } else {
+            // Statut "all" ou tout autre statut non reconnu, afficher tous les événements
+            $events = $entityManager->getRepository(Event::class)->findAll();
+        }
+
+        return $this->render('event/bloc.html.twig', [
+            'events' => $events,
+            'status' => $status,
+        ]);
+    }
 
 
 }

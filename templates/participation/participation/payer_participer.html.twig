@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votre Page de Paiement</title>
+</head>
+<body>
+
+    <!-- Inclure le script PayPal SDK avec le client ID dynamique -->
+    <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}"></script>
+
+    <!-- Votre code JavaScript pour interagir avec l'API PayPal -->
+    <script>
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                // Logique pour créer une commande PayPal
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '10.00',
+                            currency_code: 'Dt'
+                            
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                // Logique pour effectuer l'approbation du paiement
+                return actions.order.capture().then(function(details) {
+                    alert('Paiement réussi pour ' + details.payer.name.given_name);
+                });
+            }
+        }).render('#paypal-button-container'); {# ID du conteneur où le bouton PayPal sera rendu #}
+    </script>
+
+    <!-- Conteneur pour le bouton PayPal -->
+    <div id="paypal-button-container"></div>
+
+</body>
+</html>

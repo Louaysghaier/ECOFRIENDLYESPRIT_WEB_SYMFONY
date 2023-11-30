@@ -64,7 +64,7 @@
                             <td>{{ participation.getCodeQR() }}</td>
                            <td>{{ participation.dateParticipation ? participation.dateParticipation|date('Y-m-d H:i:s') : 'Non spécifié' }}</td>
                           <td>{{ participation.getEvent() ? participation.getEvent().getNomevent() : 'Non spécifié' }}</td>
-                          <td>{{ participation.getUser() ? participation.getUser().getNomuser() : 'Non spécifié' }}</td>
+                          <td>{{ participation.getUser2() ? participation.getUser2().getNomuser() : 'Non spécifié' }}</td>
                          <td><a href="{{path('supprimeparticipation',{'i':participation.id})}}">suuprimer</a></td>
                             
                            

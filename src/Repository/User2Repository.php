@@ -18,4 +18,19 @@ class User2Repository extends ServiceEntityRepository
     {
         parent::__construct($registry, User2::class);
     }
+  
+
+    public function getAllUserEmails()
+    {
+        // Utilisez le repository des utilisateurs pour récupérer toutes les adresses e-mail
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $users = $userRepository->findAll();
+
+        // Récupérez les adresses e-mail des utilisateurs
+        return array_map(function ($user) {
+            return $user->getEmail();
+        }, $users);
+    }
+
+
 }
