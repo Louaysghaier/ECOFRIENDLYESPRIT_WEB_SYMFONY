@@ -314,13 +314,6 @@ public function vide(): Response
 
 
 
-
-
-
-
-
-
-
 #[Route('/cancelEvent/{i}', name: 'cancelEvent')]
 public function cancelEvent($i, EventRepository $eventRepository, ParticipationRepository $partrepo, MailService $mailService, EventDispatcherInterface $eventDispatcher): Response
 {
@@ -331,53 +324,46 @@ public function cancelEvent($i, EventRepository $eventRepository, ParticipationR
         throw $this->createNotFoundException('Événement non trouvé');
     }
 
+    $adminPhoneNumber = '+21699607317'; // Numéro de téléphone de l'administrateur
+
     // Vérifier si l'événement n'est pas déjà annulé
     if ($event->getValid()) {
         // Mettre à jour le champ valid à false
         $event->setValid(false);
+        $partrepo->updatePaymentStatusByEventId($i);
 
         // Enregistrez les modifications dans la base de données
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
 
         // Envoyer un SMS à l'administrateur
-        $users = $this->getDoctrine()->getRepository(User2::class)->findAll();
-
-// Envoyer un SMS à tous les utilisateurs
-foreach ($users as $user) {
-    $userPhoneNumber = $user->getPhoneNumber();
-    
-    // Envoyer le SMS
-    $this->sendSms($userPhoneNumber, 'L\'événement a été annulé. Message à tous les utilisateurs.');
-}
-
-       
         $message = sprintf('L\'événement "%s" prévu pour le %s a été annulé.', $event->getNomevent(), $event->getDatedebutevent()->format('Y-m-d'));
-
-        // Appeler la méthode d'envoi de SMS directement
-        //$this->sendSms($adminPhoneNumber, $message);
+        $this->sendSms($adminPhoneNumber, $message);
 
         // Ajouter un message flash pour informer l'administrateur de l'annulation (facultatif)
         $this->addFlash('success', 'L\'événement a été annulé avec succès.');
 
         // Rediriger vers une page de succès
-        return $this->redirectToRoute('page_panier_succes');
+        return $this->redirectToRoute('affichecancel');
     } else {
         // Ajouter un message flash pour informer l'utilisateur que l'événement est déjà annulé (facultatif)
         $this->addFlash('info', 'L\'événement est déjà annulé.');
 
         // Rediriger vers une autre page si nécessaire
-        return $this->redirectToRoute('affichevent');
+        return $this->redirectToRoute('affichecancel');
     }
 }
 
 
 
 
-
-
-
-
+#[Route('/affichecancel', name: 'affichecancel')]
+    public function affichecancel(): Response
+    {
+        return $this->render('event/cancel.html.twig', 
+            
+        );
+    }
 
 
 
@@ -397,7 +383,7 @@ private function sendSms($phoneNumber, $message)
         $twilio->messages->create(
             $phoneNumber, // Numéro de téléphone du destinataire
             [
-                'from' => '+18325322932', // Votre numéro Twilio
+                'from' => $twilioPhoneNumber, // Utilisez le numéro Twilio comme émetteur
                 'body' => $message,
             ]
         );
@@ -407,6 +393,7 @@ private function sendSms($phoneNumber, $message)
         dump($e->getMessage()); // À des fins de débogage
     }
 }
+
 
 #[Route('/stat', name: 'stat')]
 public function stat(): Response
@@ -425,7 +412,7 @@ public function stat(): Response
 }
 
 #[Route('/eventsbloc', name: 'eventsbloc')]
-    public function eventsbloc(Request $request, $status = 'all'): Response
+    public function eventsblock(Request $request, $status = 'all'): Response
     {
         // Récupérer l'EntityManager
         $entityManager = $this->getDoctrine()->getManager();

@@ -45,4 +45,27 @@ public function countParticipationsByUser()
         ->getResult();
 }
 
+public function updatePaymentStatusByEventId($eventId)
+{
+    $qb = $this->createQueryBuilder('p')
+        ->update()
+        ->set('p.paymentStatus', ':paymentStatus')
+        ->where('p.event = :eventId')
+        ->setParameter('paymentStatus', false)
+        ->setParameter('eventId', $eventId);
+
+    return $qb->getQuery()->execute();
+}
+
+
+
+
+
+
+
+
+
+
+
+
 }

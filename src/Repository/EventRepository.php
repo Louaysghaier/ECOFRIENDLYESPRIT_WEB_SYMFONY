@@ -30,7 +30,7 @@ class EventRepository extends ServiceEntityRepository
             ->getResult();
     }
     
-    // Dans le repository de votre entité
+/////////////////////////
     public function countTotalParticipantsByEventType($eventType)
     {
         return $this->createQueryBuilder('e')
@@ -41,7 +41,7 @@ class EventRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-  // Dans votre repository EventRepository
+  ////////////////
   public function findValidEvents()
   {
       return $this->createQueryBuilder('e')
