@@ -16,10 +16,18 @@ class User2Type extends AbstractType
             ->add('prenomuser')
             ->add('mailuser')
             ->add('mdpuser')
+            
             ->add('adressuser')
             ->add('classeuser')
             ->add('roleuser')
-            ->add("SignUp",SubmitType::class)
+            //->add("SignUp",SubmitType::class)
+            ->add('SignUp', SubmitType::class, [
+
+                'label' => 'SignUp',
+                'attr' => [
+                    'class' => 'btn btn-primary float-right',
+                ],
+            ]);
         ;
     }
 

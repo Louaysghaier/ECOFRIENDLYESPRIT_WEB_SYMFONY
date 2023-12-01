@@ -6,6 +6,8 @@ use App\Repository\User2Repository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * User2
@@ -13,7 +15,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Table(name="user2")
  * @ORM\Entity(repositoryClass=User2Repository::class)
  */
-class User2
+class User2  implements UserInterface
 {
     /**
      * @var int
@@ -111,7 +113,12 @@ class User2
      *
      * @ORM\Column(name="isBlocked", type="boolean", nullable=true)
      */
-    private $isblocked = '0';
+    private $isblocked = false;
+    
+    /**
+     * @ORM\Column(type="string", length=180, )
+     */
+    private $reset_token;
 
     public function getIduser(): ?int
     {
@@ -225,6 +232,47 @@ class User2
 
         return $this;
     }
-   
+       /**
+     * @return mixed
+     */
+    public function getResetToken()
+    {
+        return $this->reset_token;
+    }
+
+    /**
+     * @param mixed $reset_token
+     */
+    public function setResetToken($reset_token): void
+    {
+        $this->reset_token = $reset_token;
+    }
+       
+    public function getRoles(): array
+    {
+        return [$this->roleuser ?? 'ROLE_USER'];
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->mdpuser;
+    }
+
+    public function getSalt(): ?string
+    {
+        // Vous n'avez pas besoin de sel avec le hachage de mot de passe moderne
+        return null;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->mailuser;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Si vous stockez des données temporaires et sensibles dans l'utilisateur, effacez-les ici
+        // Cette méthode est appelée après que le mot de passe a été utilisé pour l'authentification
+    }
 
 }

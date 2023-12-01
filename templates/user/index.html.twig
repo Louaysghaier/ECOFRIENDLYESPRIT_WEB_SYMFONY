@@ -1,6 +1,6 @@
 {% extends 'back.html.twig' %}
 
-{% block title %}Welcome to List User!{% endblock %}
+{% block title %}Welcome  User!{% endblock %}
 {% block body %}
 <!-- Table Start -->
             <div class="container-fluid pt-4 px-4">
@@ -27,24 +27,39 @@
                                                 <td>{{ user.prenomuser }}</td>
                                                 <td>{{ user.mailuser}}</td>
                                                 <td>{{ user.adressuser }}</td>
-                                                <td>{{ user.classeuser}}</td>
+                                                <td>{{ user.classeuser}}</td>                               
                                                 <td>
-                                                    <a href="{{ path('modifuser', {'userId': user.getIduser()}) }}">Edit</a>
+                                                <a class="btn btn-danger" href="{{ path('admin_block_user',{'id':user.iduser}) }}">
+                                                
+                                     {% if user.isBlocked %}
+                                         Unblock User
+                                         {% else %}
+                                             Block User
+                                                 {% endif %}
+                                     </a>
                                                 </td>
-                                                
-                                                
-                                            </tr>
+                                                    </td>
+                                                <a href="{{ path('tirerusers') }}"> t/ </a>
+       </td>
 
-                                            {% endfor %}
-                                                        
-                                               
+                                                </tr>
+                                            {% endfor %}  
                                         </tbody>
+                                                                                  <form action="{{ path('searchuser') }}" method="post">
+            <input type="text" name="nomuser" placeholder="Search">
+        <button type="submit">Search</button>
+    </form>
+</div>
+</form>
+      <a href="{{ path('tirerusers') }}">tirer</a>
+      </form>
                                     </table>
+                                    
                                 </div>
                             </div>
                        
                     </div>
                 </div>
             </div>
-
+          
 {% endblock %}

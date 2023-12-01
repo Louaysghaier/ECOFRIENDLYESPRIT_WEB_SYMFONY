@@ -12,6 +12,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CodePromoController extends AbstractController
 {
+
+    public function __construct()
+    {
+        // Constructeur vide
+    }
+    
     #[Route('/codepromo', name: 'app_code_promo')]
     public function index(): Response
     {

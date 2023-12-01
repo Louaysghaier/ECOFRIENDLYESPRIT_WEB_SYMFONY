@@ -3,57 +3,93 @@
 
 {% block body %}
 <section class="contact-us" id="contact">
-    {{ form_start(f, { attr: { novalidate: 'novalidate' } }) }}
-  <label for="inputText" class="col-sm-4 col-form-label">NOM:</label>
-                        <div class="col-sm-10">
-                            {{ form_widget(f.nomuser,{'attr':{'class':'form-control'}}) }}
+    <div class="form-container">
+    <h2> Sign Up!</h2>
+    <table>
 
-                        </div>
-    {{ form_errors(f.nomuser, { attr: { class: 'text-danger' }, only: true }) }}
-
-     <label for="inputText" class="col-sm-4 col-form-label">PRENOM:</label>
+        {# Ajoutez la classe "form-container" à l'élément du formulaire #}
+        {{ form_start( f, {'attr': {'novalidate': 'novalidate'}}) }}
+        <div class="align">
+    <tr>
+        <div class="form-group">
+            <label for="inputText" class="col-sm-4 col-form-label">NOM:</label>
+            <div class="col-sm-10">
+                {{ form_widget(f.nomuser,{'attr':{'class':'form-control'}}) }}
+            </div>
+           {{ form_errors(f.nomuser, { attr: { class: 'text-danger' }, only: true }) }}
+        </div>
+        
+    </tr>
+    <tr>
+        <div class="form-group">
+            <label for="inputText" class="col-sm-4 col-form-label">PRENOM:</label>
                         <div class="col-sm-10">
                             {{ form_widget(f.prenomuser,{'attr':{'class':'form-control'}}) }}
 
-                    </div>
-                    {{ form_errors(f.prenomuser,{'attr':{'class':'text-danger'}}) }}
-
-                     <label for="inputText" class="col-sm-4 col-form-label">EMAIL:</label>
+                        </div>
+                    {{ form_errors(f.prenomuser,{'attr':{'class':'text-danger'}})  }}
+   
+    </tr>
+    <tr>
+        <div class="form-group">
+            <label for="inputText" class="col-sm-4 col-form-label">EMAIL:</label>
                         <div class="col-sm-10">
                             {{ form_widget(f.mailuser,{'attr':{'class':'form-control'}}) }}
 
                     </div>
                     {{ form_errors(f.mailuser,{'attr':{'class':'text-danger'}}) }}
 
-                     <label for="inputText" class="col-sm-4 col-form-label">PASSWORD:</label>
+    </tr>
+        <div class="form-group">
+             <label for="inputText" class="col-sm-4 col-form-label">PASSWORD:</label>
                         <div class="col-sm-10">
                             {{ form_widget(f.mdpuser,{'attr':{'class':'form-control'}}) }}
 
                     </div>
                     {{ form_errors(f.mdpuser,{'attr':{'class':'text-danger'}}) }}
-
-                    <label for="inputText" class="col-sm-4 col-form-label">ADRESSE:</label>
+    </tr>
+    </tr>
+        <div class="form-group">
+             <label for="inputText" class="col-sm-4 col-form-label">ADRESSE:</label>
                         <div class="col-sm-10">
                             {{ form_widget(f.adressuser,{'attr':{'class':'form-control'}}) }}
 
                     </div>
-                    {{ form_errors(f.adressuser,{'attr':{'class':'text-danger'}}) }}
-
-
-                    <label for="inputText" class="col-sm-4 col-form-label">CLASSE:</label>
+                    {{ form_errors(f.adressuser,{'attr':{'class':'text-danger'}})  }}
+    </tr>
+    </tr>
+        <div class="form-group">
+             <label for="inputText" class="col-sm-4 col-form-label">CLASSE:</label>
                         <div class="col-sm-10">
                             {{ form_widget(f.classeuser,{'attr':{'class':'form-control'}}) }}
 
                     </div>
                     {{ form_errors(f.classeuser,{'attr':{'class':'text-danger'}}) }}
-
-                      <label for="inputText" class="col-sm-4 col-form-label">role:</label>
+    </tr>
+    </tr>
+        <div class="form-group">
+            <label for="inputText" class="col-sm-4 col-form-label">role:</label>
                         <div class="col-sm-10">
                             {{ form_widget(f.roleuser,{'attr':{'class':'form-control'}}) }}
 
                     </div>
                     {{ form_errors(f.roleuser,{'attr':{'class':'text-danger'}}) }}
-    
-{{ form_end(f) }}
+    </tr>
+        {# Si vous avez exclu idUser du mappage, vous pouvez l'ajouter manuellement ici si nécessaire #}
+        {# <div class="form-group">
+            {{ form_label(form.idUser) }}
+            {{ form_row(form.idUser) }}
+        </div> #}
+
+        {# Bouton de soumission #}
+    <tr> 
+        <div class="form-group">
+            <li data-filter="*"><a href="{{ path('app_template') }}">{{ form_row(f.SignUp) }}</a></li> 
+        </div>
+    </tr>
+    </table>
+        {{ form_end(f) }}
+    </div>
+    </div>
 </section>
 {% endblock %}

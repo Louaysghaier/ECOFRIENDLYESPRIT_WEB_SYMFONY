@@ -23,4 +23,11 @@ class TemplateController extends AbstractController
             'controller_name' => 'TemplateController',
         ]);
     }
+    #[Route('/appfirstindex', name: 'appfirstindex')]
+    public function firstindex(): Response
+    {
+        return $this->render('template/firstindex.html.twig', [
+            'controller_name' => 'TemplateController',
+        ]);
+    }
 }
