@@ -41,28 +41,40 @@ class UserController extends AbstractController
         $this->passwordEncoder = $passwordEncoder;
     }
     #[Route('/adduser', name: 'add_user')]
-public function adduser(Request $request): Response
-{
-    $user = new User2();
-
-    $form = $this->createForm(User2Type::class, $user);
-
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $plainPassword = $user->getMdpuser();
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
-        $user->setMdpuser($encodedPassword);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
-
-        return $this->redirectToRoute('app_template');
+    public function adduser(Request $request): Response
+    {
+        $user = new User2();
+    
+        $form = $this->createForm(User2Type::class, $user);
+    
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Check if a user with the same email already exists
+            $existingUser = $this->getDoctrine()->getRepository(User2::class)->findOneBy(['mailuser' => $user->getMailuser()]);
+    
+            if ($existingUser) {
+                $this->addFlash('danger', 'User with the provided email already exists.');
+                return $this->redirectToRoute('add_user');
+            }
+    
+            $plainPassword = $user->getMdpuser();
+            $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
+            $user->setMdpuser($encodedPassword);
+    
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+    
+            $this->addFlash('message', 'User successfully signed up!');
+            return $this->redirectToRoute('app_user_login');
+        }
+    
+        return $this->render('user/adduser.html.twig', [
+            'f' => $form->createView(),
+        ]);
     }
-
-    return $this->render('user/adduser.html.twig', ['f' => $form->createView()]);
-}
+    
 #[Route('/login', name: 'app_user_login')]
 public function login(Request $request, User2Repository $userRepository): Response
 {   
@@ -234,7 +246,7 @@ public function login(Request $request, User2Repository $userRepository): Respon
     public function searchAction(Request $request, User2Repository $userRepository): Response
     {
         $user = $request->request->get('nomuser');
-              
+
         if ($user) {
             $users = $userRepository->searchusers($user);
         } else {
@@ -246,6 +258,21 @@ public function login(Request $request, User2Repository $userRepository): Respon
             'users' => $users,  
         ]);
     }
+    #[Route('/profile/{id}', name: 'user_profile')]
+public function userProfileAction($id): Response
+{
+    
+    $user = $this->getDoctrine()->getRepository(User2::class)->find($iduser);
+
+    if (!$user) {
+        throw $this->createNotFoundException('User not found');
+    }
+
+    
+    return $this->render('user/afficheuser.html.twig', [
+        'user' => $user,
+    ]);
+}
    
 }
 
