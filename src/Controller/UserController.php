@@ -234,10 +234,7 @@ public function login(Request $request, User2Repository $userRepository): Respon
     public function searchAction(Request $request, User2Repository $userRepository): Response
     {
         $user = $request->request->get('nomuser');
-    
-
-        
-      
+              
         if ($user) {
             $users = $userRepository->searchusers($user);
         } else {
