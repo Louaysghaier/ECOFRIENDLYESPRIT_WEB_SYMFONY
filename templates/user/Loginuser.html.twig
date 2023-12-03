@@ -1,4 +1,18 @@
-
+{% block body %}
+ <div class="container">
+        <section class="section register ">
+            {% for message  in app.flashes('message') %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </section>
+        <section class="section register ">
+            {% for danger  in app.flashes('danger') %}
+                <div class="alert alert-danger">
+                    {{ danger }}
+                </div>
+            {% endfor %}
 {{ form_start(f, {'attr': {'novalidate': 'novalidate'}}) }}
     <div class="d-flex align-items-center justify-content-between mb-3">
         <h3>Sign In</h3>
@@ -20,4 +34,4 @@
       
     </div>
     {{ form_end(f) }}
-    
+    {% endblock %}
