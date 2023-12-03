@@ -14,14 +14,19 @@
             <dd>{{ user.prenomuser }}</dd>
 
              <dt>Email:</dt>
-            <dd>{{ user.mailuser }}</dd> 
+            <dd>{{ user.mailuser }}</dd>
+
             <dt>Adresse:</dt>
             <dd>{{ user.adressuser  }}</dd> 
+
             <dt>Classe:</dt>
             <dd>{{ user.classeuser }}</dd> 
+
             <dt>Role:</dt>
             <dd>{{ user.roleuser }}</dd>
-
+ <a href="{{ path('app_user_edit') }}">Edit</a>
         </dl>
     </div>
+
+    
 {% endblock %}

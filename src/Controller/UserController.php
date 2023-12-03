@@ -75,34 +75,36 @@ class UserController extends AbstractController
         ]);
     }
     
-#[Route('/login', name: 'app_user_login')]
-public function login(Request $request, User2Repository $userRepository): Response
-{   
-    $form = $this->createForm(loginType::class);
-
-    $form->handleRequest($request);
-    $session = $request->getSession();
+    #[Route('/login', name: 'app_user_login')]
+    public function login(Request $request, User2Repository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
+    {   
+        $form = $this->createForm(loginType::class);
     
-    if ($form->isSubmitted() && $form->isValid()) {
-        $email = $form->get('mailuser')->getData();
-        $password = $form->get('mdpuser')->getData();
+        $form->handleRequest($request);
+        $session = $request->getSession();
         
-        $user = $userRepository->verif($email, $password);
-        
-        if ($user && $user->isIsblocked()) {
-            $this->addFlash('danger', 'Votre compte est bloqué. Veuillez contacter l\'administrateur.');
-        } elseif ($user) {
-            $session->set('User2', $user);
-            return $this->redirectToRoute('app_user', [], Response::HTTP_SEE_OTHER);
-        } else {
-            $this->addFlash('error', 'Invalid credentials');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $email = $form->get('mailuser')->getData();
+            $password = $form->get('mdpuser')->getData();
+            
+            $user = $userRepository->findOneBy(['mailuser' => $email]);
+    
+            if ($user && $passwordEncoder->isPasswordValid($user, $password)) {
+                if ($user->isIsblocked()) {
+                    $this->addFlash('danger', 'Votre compte est bloqué. Veuillez contacter l\'administrateur.');
+                } else {
+                    $session->set('User2', $user);
+                    return $this->redirectToRoute('app_user', [], Response::HTTP_SEE_OTHER);
+                }
+            } else {
+                $this->addFlash('error', 'Invalid credentials');
+            }
         }
+    
+        return $this->render('user/Loginuser.html.twig', [
+            'f' => $form->createView()
+        ]); 
     }
-
-    return $this->render('user/Loginuser.html.twig', [
-        'f' => $form->createView()
-    ]); 
-}
 
 
    
@@ -262,11 +264,9 @@ public function login(Request $request, User2Repository $userRepository): Respon
 public function userProfileAction($id): Response
 {
     
-    $user = $this->getDoctrine()->getRepository(User2::class)->find($iduser);
+    $user = $this->getDoctrine()->getRepository(User2::class)->find($id);
 
-    if (!$user) {
-        throw $this->createNotFoundException('User not found');
-    }
+ 
 
     
     return $this->render('user/afficheuser.html.twig', [

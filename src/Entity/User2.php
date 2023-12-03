@@ -25,7 +25,12 @@ class User2  implements UserInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $iduser;
-
+/**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $userId;
     /**
     
      
