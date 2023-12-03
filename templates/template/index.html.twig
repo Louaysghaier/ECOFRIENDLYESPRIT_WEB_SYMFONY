@@ -133,6 +133,42 @@
       </div>
     </div>
   </section>
+  
+<section class="upcoming-meetings" id="meetings">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <h2>Most Popular Post</h2>
+          </div>
+        </div>
+       
+          <div class="list-container">
+          {#{% for post in stat %}#}
+                    <div class="card" style="margin-bottom: 20px; width: 1100px; height: auto;">
+                      <div class="down-content">
+                        <h6 style=" text-align: right; padding :15px; color: #B22222">{{ stat[0].dateCreationPost|date('Y-m-d') }}</h6>
+                        <h4 style="color: black; padding-left :60px; text-align: left;">{{ stat[0].title }}</h4>
+                        <p style=" padding-left  :25px; text-align: left;">{{ stat[0].descriptionPost }}</p>
+                        {% if stat[0].imagePost is not null %}
+                          <div style="display: flex; justify-content: center; align-items: center;">
+                            <img src="{{ asset(stat[0].getImagePost()) }}" alt="" style="max-width: 300px; max-height: 300px ;">
+                          </div> 
+                        {% endif %}
+                        <div style="display: flex; align-items: center;">
+                          <ul style="display: flex; gap: 10px; margin-right: 10px;">
+                              <li data-filter="*" style="padding-right: 20px;"><a href="{{ path('addComment', {'postId': stat[0].getId()}) }}">Add Comment</a></li>
+                              <li data-filter="*"><a href="{{ path('Readcommentfront', {'postId': stat[0].getId()}) }}">Read Comment</a></li>
+                          </ul>
+                          <p style="padding-left: 600px; margin-right: 10px;">Number of Comments: {{ stat[0].getNbresComments() }}</p>
+                        </div>
+                      </div> 
+                   
+                   </div>
+              </div>
+      </div>
+    </div>
+  </section>
 
   <section class="upcoming-meetings" id="meetings">
     <div class="container">

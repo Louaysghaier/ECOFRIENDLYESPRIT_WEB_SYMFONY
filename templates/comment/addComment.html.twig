@@ -6,6 +6,11 @@
 <section class="contact-us" id="contact">
     <div class="form-container">
     <h2> Add Your Comment!</h2>
+    {% for flashMessage in app.flashes('danger') %}
+                <div class="alert alert-danger">
+                    {{ flashMessage }}
+                </div>
+    {% endfor %}
     <table>
 
         {# Ajoutez la classe "form-container" à l'élément du formulaire #}
@@ -28,11 +33,7 @@
     </table>
         {{ form_end(form) }}
         {# Afficher les messages flash #}
-            {% for flashMessage in app.flashes('danger') %}
-                <div class="alert alert-danger">
-                    {{ flashMessage }}
-                </div>
-            {% endfor %}
+            
     </div>
     </div>
 </section>

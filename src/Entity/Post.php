@@ -36,7 +36,7 @@ class Post
     #[ORM\Column(length: 800)]
     #[Assert\NotBlank(message: 'La description ne peut pas être vide.')]
     #[Assert\Length(
-        max : 100,
+        max : 800,
         maxMessage: 'Le Contenu est trés long. Veuillez le minimiser. '
     )]
     private ?string $descriptionPost = null;
@@ -153,7 +153,9 @@ class Post
 
     public function prePersist()
     {
-        $this->dateCreationPost = new \DateTime();
+        //$this->dateCreationPost = new \DateTime();
+        $now = new \DateTime();
+        $this->dateCreationPost = \DateTime::createFromFormat('Y-m-d H:i:s', $now->format('Y-m-d H:i:s'));
        
     }
 

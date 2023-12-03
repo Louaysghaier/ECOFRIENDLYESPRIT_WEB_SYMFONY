@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\User;
 use App\Entity\Post;
-use App\Bundle\BadWords;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -62,7 +61,7 @@ class CommentController extends AbstractController
         
     }*/
     #[Route('/addComment/{postId}', name: 'addComment')]
-    public function addComment(ManagerRegistry $manager, Request $request, $postId, BadWords $badWords): Response
+    public function addComment(ManagerRegistry $manager, Request $request, $postId): Response
     {
         $em = $manager->getManager();
 
@@ -84,10 +83,30 @@ class CommentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Utilisez directement le service BadWords injecté
+            
+            $badWordsList=['fuck','Bollocks','Bugger','Asshole','Shit','Fuck','bitch','Dick','Tits','Munter',
+                        'Motherfucker','Bastard','Damn','Bloody','Arse','Bullshit','Pissed','Cunt','Cow',
+                        'Sod','ass','arsehead','arsehole','brotherfucker','child-fucker','cock','cocksucker',
+                        'crap','cunt','dickhead','dyke','fatherfucker','frigger','goddamn','godsdamn','hell',
+                        'shit','2g1c','2 girls 1 cup','acrotomophilia','anal','anus','apeshit','DISABLEDass',
+                        'assmunch','autoerotic','acrotomophilia','sucking','sack','bangbros','bareback','bastard',
+                        'bastardo','bastinado','beaner','beaners','birdlock','bitches','cock','blowjob','blow job',
+                        'blow your load','boob','boobs','bukkake','bulldyke','bullshit','bunghole','bung hole',
+                        'camgirl','camslut','cocks','dirty pillows','dildo','dirty sanchez','doggiestyle',
+                        'doggie style','doggy style','doggystyle','dog style','dolcett','dommes', 'ass','squirting',
+                        'femdom','fingerbang','fisting','footjob','foot fetish','fuckin', 'fucking','fucktards',
+                        'fudgepacker','gang bang','gay sex','goregasm','g-spot','hand job','handjob','hard core', 
+                        'hardcore','milf','nipples','nipple','nigga', 'nigger','milf','nude','nudity','nympho',
+                        'orgasm','paedophile','pegging','pedophile', 'penis','sex','pissing','playboy','porn',
+                        'porno','pornography', 'pubes','pussy','cowgirl','slut','snatch','sucks','swastika',
+                        'swinger', 'threesome','vagina'
+            ];
             $commentContent = $comment->getDescriptionComment();
-            if ($badWords->containsBadWords($commentContent)) {
-                $this->addFlash('danger', 'The Comment has a BadWords.');
-                return $this->redirectToRoute('addComment', ['postId' => $postId]);
+            foreach ($badWordsList as $badword) {
+                if (stripos( $commentContent, $badword) !== false) {
+                    $this->addFlash('danger', 'The Comment has BadWords.');
+                    return $this->redirectToRoute('addComment', ['postId' => $postId]);
+                }
             }
                 $comment->setIdPost($postId);
                 $comment->prePersist();

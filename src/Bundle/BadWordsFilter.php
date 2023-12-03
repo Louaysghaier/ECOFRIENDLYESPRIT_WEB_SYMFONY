@@ -2,7 +2,8 @@
 
 namespace App\Bundle;
 
-class BadWords
+
+class BadWordsFilter
 {
     private $badWords;
 

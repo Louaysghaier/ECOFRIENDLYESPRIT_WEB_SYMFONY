@@ -4,138 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-          images_directory: '%kernel.project_dir%/public/uploads/images'
-          app.bad_words:
-            - Bollocks
-            - Bugger
-            - Asshole
-            - Shit
-            - Fuck
-            - bitch
-            - Dick
-            - Tits
-            - Munter
-            - Motherfucker
-            - Bastard
-            - Damn
-            - Bloody
-            - Arse
-            - Bullshit
-            - Pissed
-            - Cunt
-            - Cow
-            - Sod
-            - ass
-            - arsehead
-            - arsehole
-            - brotherfucker
-            - child-fucker
-            - cock
-            - cocksucker
-            - crap
-            - cunt
-            - dickhead
-            - dyke
-            - fatherfucker
-            - frigger
-            - goddamn
-            - godsdamn
-            - hell
-            - shit
-            - 2g1c
-            - 2 girls 1 cup
-            - acrotomophilia
-            - anal
-            - anus
-            - apeshit
-            - DISABLEDass
-            - assmunch
-            - autoerotic
-            - acrotomophilia
-            - sucking
-            - sack
-            - bangbros
-            - bareback
-            - bastard
-            - bastardo
-            - bastinado
-            - beaner
-            - beaners
-            - birdlock
-            - bitches
-            - cock
-            - blowjob
-            - blow job
-            - blow your load
-            - boob
-            - boobs
-            - bukkake
-            - bulldyke
-            - bullshit
-            - bunghole
-            - bung hole
-            - camgirl
-            - camslut
-            - cocks
-            - dirty pillows
-            - dildo
-            - dirty sanchez
-            - doggiestyle
-            - doggie style
-            - doggy style
-            - doggystyle
-            - dog style
-            - dolcett
-            - dommes 
-            - ass
-            - squirting
-            - femdom
-            - fingerbang
-            - fisting
-            - footjob
-            - foot fetish
-            - fuckin 
-            - fucking
-            - fucktards
-            - fudgepacker
-            - gang bang
-            - gay sex
-            - goregasm
-            - g-spot
-            - hand job
-            - handjob
-            - hard core 
-            - hardcore
-            - milf
-            - nipples
-            - nipple
-            - nigga 
-            - nigger
-            - milf
-            - nude
-            - nudity 
-            - nympho
-            - orgasm
-            - paedophile
-            - pegging
-            - pedophile 
-            - penis
-            - sex
-            - pissing
-            - playboy
-            - porn
-            - porno
-            - pornography 
-            - pubes
-            - pussy
-            - cowgirl
-            - slut
-            - snatch
-            - sucks
-            - swastika
-            - swinger 
-            - threesome
-            - vagina
+        images_directory: '%kernel.project_dir%/public/uploads/images'
+        twilio_account_sid: ACc8429eaea9ff046e939f02bde88a3a6c'
+        twilio_auth_token: 'd15716252951e6941578f55df225a29f'
+        twilio_phone_number: '25285386'
+        
 
 services:
     # default configuration for services in *this* file
@@ -153,13 +26,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    #App\Bundle\:
-        #resource: '../src/Bundle'
-        #arguments:
-            #$badWords: '%app.bad_words%'
-    App\Bundle\BadWords:
-        arguments:
-            $badWords: '%app.bad_words%'
+
+    
            
 
     # add more service definitions when explicit configuration is needed

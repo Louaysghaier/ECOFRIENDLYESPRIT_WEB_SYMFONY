@@ -4,9 +4,14 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
+            {#{{ encore_entry_link_tags('app') }}#}
             <!-- Bootstrap core CSS -->
+             <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+            <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
             <link href={{asset("vendor/bootstrap/css/bootstrap.min.css")}} rel="stylesheet">
 
 
@@ -17,33 +22,24 @@
             <link rel="stylesheet" href={{asset("assets/css/lightbox.css")}}>
             <link rel="stylesheet" href={{asset("assets/css/fontawesome.css")}}>
             <link rel="stylesheet" href={{asset("css/Post.css")}}>
-            {#back#}
-            <link href={{asset("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css")}} rel="stylesheet">
-            <link href={{asset("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css")}} rel="stylesheet">
-
-            <!-- Libraries Stylesheet -->
-            <link href={{asset("back/lib/owlcarousel/assets/owl.carousel.min.css")}} rel="stylesheet">
-            <link href={{asset("back/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css")}} rel="stylesheet" />
-
-            <!-- Customized Bootstrap Stylesheet -->
-            <link href={{asset("back/css/bootstrap.min.css")}} rel="stylesheet">
-
-            <!-- Template Stylesheet -->
-            <link href={{asset("back/css/style.css")}} rel="stylesheet">
+             <link rel="stylesheet" href="{{ asset('css/flashy.css') }}">
+           
                 {% endblock %}
 
         {% block javascripts %}
                     <!-- Bootstrap core JavaScript -->
-            <script src={{asset("vendor/jquery/jquery.min.js")}}></script>
-            <script src={{asset("vendor/bootstrap/js/bootstrap.min.js")}}></script>
+            <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+            <script src="{{asset('vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 
-            <script src={{asset("assets/js/isotope.min.js")}}></script>
-            <script src={{asset("assets/js/owl-carousel.js")}}></script>
-            <script src={{asset("assets/js/lightbox.js")}}></script>
-            <script src={{asset("assets/js/tabs.js")}}></script>
-            <script src={{asset("assets/js/video.js")}}></script>
-            <script src={{asset("assets/js/slick-slider.js")}}></script>
-            <script src={{asset("assets/js/custom.js")}}></script>
+            <script src="{{asset('assets/js/isotope.min.js')}}"></script>
+            <script src="{{asset('assets/js/owl-carousel.js')}}"></script>
+            <script src="{{asset('assets/js/lightbox.js')}}"></script>
+            <script src="{{asset('assets/js/tabs.js')}}"></script>
+            <script src="{{asset('assets/js/video.js')}}"></script>
+            <script src="{{asset('assets/js/slick-slider.js')}}"></script>
+            <script src="{{asset('assets/js/custom.js')}}"></script>
+            <script src="{{ asset('js/flashy.js') }}"></script>
+            <script src="//code.jquery.com/jquery.js"></script>
             <script>
                 //according to loftblog tut
                 $('.nav li:first').addClass('active');
@@ -90,19 +86,9 @@
                 checkSection();
                 });
             </script>
-            <script src={{asset("https://code.jquery.com/jquery-3.4.1.min.js")}}></script>
-            <script src={{asset("https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js")}}></script>
-            <script src={{asset("back/lib/chart/chart.min.js")}}></script>
-            <script src={{asset("back/lib/easing/easing.min.js")}}></script>
-            <script src={{asset("back/lib/waypoints/waypoints.min.js")}}></script>
-            <script src={{asset("back/lib/owlcarousel/owl.carousel.min.js")}}></script>
-            <script src={{asset("back/lib/tempusdominus/js/moment.min.js")}}></script>
-            <script src={{asset("back/lib/tempusdominus/js/moment-timezone.min.js")}}></script>
-            <script src={{asset("back/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js")}}></script>
-
-         <!-- Template Javascript -->
-            <script src={{asset("back/js/main.js")}}></script>
+        
         {% endblock %}
+        {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
     </head>
     <body>
 
@@ -182,7 +168,7 @@
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
                         <a href="index.html" class="logo">
-                            UniLife Esprit
+                            EcoFriendly Esprit
                         </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->

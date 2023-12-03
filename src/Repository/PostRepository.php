@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,4 +46,33 @@ class PostRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByTitle($searchQuery)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.Title LIKE :query ')
+            ->setParameter('query', '%' . $searchQuery . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    // Dans votre repository de Post (PostRepository.php)
+    public function findPostWithMostComments()
+{
+    return $this->createQueryBuilder('p')
+        ->leftJoin('App\Entity\Comment', 'c', 'WITH', 'c.idPost = p.id')
+        ->select('p', 'COUNT(c) as commentCount')
+        ->groupBy('p')
+        ->orderBy('commentCount', 'DESC')
+        ->addOrderBy('p.dateCreationPost', 'DESC')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getSingleResult();
+}
+
+
+
+
+
+
+
 }
