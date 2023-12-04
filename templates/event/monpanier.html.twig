@@ -8,12 +8,49 @@
     {{ parent() }}
     <style>
         .custom-card img {
-            height: 190px; /* Ajustez la hauteur selon vos besoins */
-            object-fit: cover; /* Optionnel : assurez-vous que l'image conserve ses proportions */
+            height: 190px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .custom-card:hover img {
+            transform: scale(1.1);
         }
 
         .custom-column {
-            margin-top: 20px; /* Ajustez la marge supérieure selon vos besoins */
+            margin-top: 20px;
+        }
+
+        .animated-title {
+            position: relative;
+            display: inline-block;
+            font-size: 2rem;
+            font-weight: bold;
+            overflow: hidden;
+        }
+
+        .animated-title span {
+            display: inline-block;
+            transform-origin: 50% 50%;
+            animation: bounce 0.5s alternate infinite;
+        }
+
+        @keyframes bounce {
+            to {
+                transform: scale(1.2);
+            }
+        }
+
+        /* Ajoutez le style pour agrandir les messages lors du survol */
+        .alert:hover {
+            transform: scale(1.1);
+            transition: transform 0.3s;
+        }
+
+        /* Ajoutez le style pour agrandir les boutons lors du survol */
+        .btn:hover {
+            transform: scale(1.1);
+            transition: transform 0.3s;
         }
     </style>
 {% endblock %}
@@ -22,9 +59,12 @@
     <section class="meetings-page" id="meetings">
         <div class="container main-container">
             <div class="container mt-5">
-                <!-- Titre des événements -->
-                <h2 class="custom-column">Vos événements</h2>
-                
+                <!-- Titre des événements avec animation -->
+               <h2 class="custom-column animated-title">
+    <span>B</span><span>i</span><span>e</span><span>n</span><span>v</span><span>e</span><span>n</span><span>u</span><span>e</span>&nbsp;<span>d</span><span>a</span><span>n</span><span>s</span>&nbsp;<span>v</span><span>o</span><span>t</span><span>r</span><span>e</span>&nbsp;<span>p</span><span>a</span><span>n</span><span>i</span><span>e</span><span>r</span>
+</h2>
+
+
                 <div class="row">
                     <!-- Colonne des événements -->
                     <div class="col-md-8 custom-column">
@@ -70,11 +110,13 @@
                             <h4 class="alert-heading">Attention</h4>
                             <p>Assurez-vous de finaliser votre paiement pour garantir votre place à ces événements exclusifs.</p>
                         </div>
-
-                        <!-- Ajoutez d'autres messages ici selon vos besoins -->
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+        // Facultatif : Vous pouvez ajouter du JavaScript supplémentaire ici si nécessaire
+    </script>
 {% endblock %}
