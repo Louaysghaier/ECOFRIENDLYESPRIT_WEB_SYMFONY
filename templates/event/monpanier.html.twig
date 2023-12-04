@@ -2,42 +2,79 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Votre Panier{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .custom-card img {
+            height: 190px; /* Ajustez la hauteur selon vos besoins */
+            object-fit: cover; /* Optionnel : assurez-vous que l'image conserve ses proportions */
+        }
+
+        .custom-column {
+            margin-top: 20px; /* Ajustez la marge supérieure selon vos besoins */
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
-       <div class="container mt-5">
-       
-
-    <div class="container mt-5">
-        {# Augmentez la marge supérieure ici pour décaler le titre vers le bas #}
-
-        {% if eventsInPanier is not empty %}
-            
-                {% for event in eventsInPanier %}
-                    <div class="col-md-4 mb-4">
-                    
-                        <div class="card">
-                            <img src="{{ asset('uploads/images/' ~ event.getImage()) }}" class="card-img-top" alt="{{ event.getNomevent() }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ event.getNomevent() }}</h5>
-                                <p class="card-text">{{ event.getDescriptionevent() }}</p>
-                                {# Ajoutez d'autres détails de l'événement selon vos besoins #}
-                                <a href="{{ path('showDetails', {'i': event.getIdEvent()}) }}" class="btn btn-primary">Voir les détails</a>
-                                 <a href="{{ path('paiement', {'i': event.getIdEvent()}) }}" class="btn btn-success">Payer</a>
-
-
+    <section class="meetings-page" id="meetings">
+        <div class="container main-container">
+            <div class="container mt-5">
+                <!-- Titre des événements -->
+                <h2 class="custom-column">Vos événements</h2>
+                
+                <div class="row">
+                    <!-- Colonne des événements -->
+                    <div class="col-md-8 custom-column">
+                        {% if eventsInPanier is not empty %}
+                            <div class="row">
+                                {% for event in eventsInPanier %}
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card custom-card">
+                                            <img src="{{ asset('uploads/images/' ~ event.getImage()) }}" class="card-img-top" alt="{{ event.getNomevent() }}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ event.getNomevent() }}</h5>
+                                                <p class="card-text">{{ event.getDescriptionevent() }}</p>
+                                                <a href="{{ path('showDetails', {'i': event.getIdEvent()}) }}" class="btn btn-primary btn-sm">Voir les détails</a>
+                                                <a href="{{ path('paiement', {'i': event.getIdEvent()}) }}" class="btn btn-success btn-sm">Payer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
-                        </div>
+                        {% else %}
+                            <p>Votre panier est vide.</p>
+                        {% endif %}
                     </div>
-                {% endfor %}
+
+                    <!-- Colonne des messages -->
+                    <div class="col-md-4 custom-column">
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading">Bienvenue dans votre panier !</h4>
+                            <p>Merci de sélectionner vos événements préférés.</p>
+                        </div>
+
+                        <div class="alert alert-info" role="alert">
+                            <h4 class="alert-heading">Conseils professionnels</h4>
+                            <p>N'hésitez pas à explorer tous les détails de chaque événement avant de finaliser votre choix.</p>
+                        </div>
+
+                        <div class="alert alert-warning" role="alert">
+                            <h4 class="alert-heading">Remises spéciales</h4>
+                            <p>Profitez de nos remises spéciales pour les événements sélectionnés. Ne manquez pas cette opportunité!</p>
+                        </div>
+
+                        <div class="alert alert-danger" role="alert">
+                            <h4 class="alert-heading">Attention</h4>
+                            <p>Assurez-vous de finaliser votre paiement pour garantir votre place à ces événements exclusifs.</p>
+                        </div>
+
+                        <!-- Ajoutez d'autres messages ici selon vos besoins -->
+                    </div>
+                </div>
             </div>
-        {% else %}
-            <p>Votre panier est vide.</p>
-        {% endif %}
-    </div>
-    <style>
-    .card {
-        margin-top: 80px; /* Ajoutez la marge supérieure souhaitée */
-    }
-</style>
+        </div>
+    </section>
 {% endblock %}
