@@ -57,4 +57,35 @@ class EventRepository extends ServiceEntityRepository
           ->getQuery()
           ->getResult();
   }
+
+
+
+  public function findTopPopularEvents()
+    {
+        $sportPopularEvents = $this->findPopularEvents('Sport', 3);
+        $loisirPopularEvents = $this->findPopularEvents('Loisir', 3);
+        $culturePopularEvents = $this->findPopularEvents('Culture', 3);
+
+        return [
+            'Sport' => $sportPopularEvents,
+            'Loisir' => $loisirPopularEvents,
+            'Culture' => $culturePopularEvents,
+        ];
+    }
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

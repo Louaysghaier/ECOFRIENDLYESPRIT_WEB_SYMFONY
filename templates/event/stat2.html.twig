@@ -1,0 +1,15 @@
+{# templates/event/top_popular_events.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Popular Events{% endblock %}
+
+{% block body %}
+    <h1>Top Popular Events</h1>
+
+    <ul>
+        {% for event in topPopularEvents %}
+            <li>{{ event.nomevent }} - {{ event.participantCount }} participants</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
