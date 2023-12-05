@@ -2,26 +2,33 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\FormRenderer;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class SearchType extends AbstractType
+class User2Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('searchinput', TextType::class)
-            ->add('search', SubmitType::class, [
-                'label' => 'Share',
+            ->add('nomuser')
+            ->add('prenomuser')
+            ->add('mailuser')
+            ->add('mdpuser')
+            
+            ->add('adressuser')
+            ->add('classeuser')
+            ->add('roleuser')
+            //->add("SignUp",SubmitType::class)
+            ->add('SignUp', SubmitType::class, [
+
+                'label' => 'SignUp',
                 'attr' => [
                     'class' => 'btn btn-primary float-right',
                 ],
             ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

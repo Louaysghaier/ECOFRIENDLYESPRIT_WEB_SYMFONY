@@ -49,3 +49,17 @@
     height: 200px;
     width: 500px;
 }
+.red-button {
+    background-color: #ff0000; /* Rouge */
+    color: #fff; /* Texte blanc */
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .red-button:hover {
+    background-color: #cc0000; /* Rouge foncé au survol */
+  }

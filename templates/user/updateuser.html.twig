@@ -1,0 +1,14 @@
+{% extends 'firstbase.html.twig' %}
+{% block title %}Edit user{% endblock %}
+
+{% block body %}
+    <h1>Edit user</h1>
+
+    {{ form_start(f) }}
+    {{ form_widget(f) }}
+    {{ form_end(f) }}
+
+    <a href="{{ path('app_user') }}">Back to list</a>
+
+    
+{% endblock %}

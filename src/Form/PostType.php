@@ -43,21 +43,9 @@ class PostType extends AbstractType
             ->add('title', TextType::class, [
                 'attr' => [
                     'style' => 'width: 100%; height: 30px; color: #FFFAF0;',
+                    //'style' => 'padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; width: 250px; transition: border-color 0.3s ease;', 
                 ],
             ])
-            /*->add('imagePost', FileType::class, [
-                'label' => 'Upload Image',
-                'mapped' => false,
-                'required' => false, // Allow the image to be null
-                'constraints' => [
-                    new File([
-                        'maxSize' => '10M',
-                        'maxSizeMessage' => 'The file is too large. Maximum allowed size is 10MB.',
-                        'mimeTypes' => ['image/*'],
-                        'mimeTypesMessage' => 'Please upload a valid image file.',
-                    ]),
-                ],
-            ])*/
             ->add('imagePost', FileType::class, [
                 'label' => ' Upload Image', // Définissez le libellé personnalisé ici
                 'mapped' => false,
@@ -71,19 +59,18 @@ class PostType extends AbstractType
                     ]),
                 ],
                 'attr' => [
-                    'accept' => 'image/*', // Ajoutez ceci pour filtrer uniquement les fichiers image lors de la sélection
+                    'accept' => 'image/*',
+                    'class' => 'form-control', // Ajoutez la classe Bootstrap pour le style du bouton
+                    'style' => 'background-color: transparent', 
+                    
                 ],
             ])
             //->add('descriptionPost')
             ->add('descriptionPost', TextType::class, [
                 'attr' => [
-                    //'class' => 'my-custom-input', // Ajouter des classes CSS
                     'style' => 'width: 100%; height: 80px;',
-                     // Ajouter des styles en ligne
-                    // Ajouter d'autres attributs HTML au besoin
                 ],
             ])
-            //->add('Share',SubmitType::class);
             ->add('Share', SubmitType::class, [
                 'label' => 'Share',
                 'attr' => [
