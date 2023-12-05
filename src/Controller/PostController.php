@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use Twilio\Rest\Client;
 use App\Entity\Post;
-use App\Entity\User;
+use App\Entity\User2;
 use App\Form\PostType;
 use App\Form\SearchType;
 use App\Repository\PostRepository;

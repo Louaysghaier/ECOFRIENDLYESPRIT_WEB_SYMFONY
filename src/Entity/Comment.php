@@ -22,7 +22,9 @@ class Comment
     private ?int $idPost = null;
 
     #[ORM\Column]
-    private ?int $idUser = null;
+    #[ORM\ManyToOne(targetEntity: User2::class, inversedBy: "comments")]
+    #[ORM\JoinColumn(name: "id_user", referencedColumnName: "iduser")]
+    private ?User2 $idUser = null;
 
     #[ORM\Column(length: 800)]
     #[Assert\NotBlank(message: 'La description ne peut pas être vide.')]

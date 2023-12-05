@@ -24,7 +24,9 @@ class Post
     private ?int $idPost = null;
 
     #[ORM\Column]
-    private ?int $idUser = null;
+    #[ORM\ManyToOne(targetEntity: User2::class, inversedBy: "posts")]
+    #[ORM\JoinColumn(name: "id_user", referencedColumnName: "iduser")]
+    private ?User2 $idUser = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Subject = null;
@@ -52,6 +54,8 @@ class Post
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
+
+    
     public function __construct()
     {
         $this->comments = new ArrayCollection();
